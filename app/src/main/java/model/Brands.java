@@ -1,20 +1,19 @@
 package model;
 
-
-import java.util.ArrayList;
+import android.widget.ArrayAdapter;
 
 public class Brands {
-    private ArrayList<String> brandsList;
+    private ArrayAdapter<String> brandsList;
 
-    public ArrayList<String> getBrandsList() {
+    public ArrayAdapter<String> getBrandsList() {
         return brandsList;
     }
 
-    public void setBrandsList(ArrayList<String> brandsList) {
+    public void setBrandsList(ArrayAdapter<String> brandsList) {
         this.brandsList = brandsList;
     }
 
-    public void brandsToArray(ArrayList<String> brandsList){
+    public void brandsToArray(ArrayAdapter<String> brandsList){
 
         this.brandsList = brandsList;
         brandsList.add("Audi");

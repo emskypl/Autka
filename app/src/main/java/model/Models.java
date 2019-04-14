@@ -1,25 +1,29 @@
 package model;
 
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 public class Models {
 
-    private ArrayList<String> modelsList;
+    private ArrayAdapter<String> modelsList;
     
-    public ArrayList<String> getModelsList() {
+    public ArrayAdapter<String> getModelsList() {
         return modelsList;
     }
 
-    public void setModelsList(ArrayList<String> modelsList) {
+    public void setModelsList(ArrayAdapter<String> modelsList) {
         this.modelsList = modelsList;
     }
 
 
 
-    public void getMarks(String brand, ArrayList<String> modelsList){
+    public void getMarks(String brand, ArrayAdapter<String> modelsList){
 
         this.modelsList = modelsList;
         modelsList.clear();
+        modelsList.add("Wszystkie modele");
         if(brand.equals("Audi")){
             modelsList.add("A1");
             modelsList.add("A2");
@@ -49,9 +53,18 @@ public class Models {
             modelsList.add("TT RS");
             modelsList.add("TT S");
         } else if(brand.equals("BMW")){
+            modelsList.add("3");
             modelsList.add("5");
-        } else{
-            modelsList.add("Ni ma");
+            modelsList.add("7");
+            modelsList.add("M5");
+        } else if (brand.equals("Chevrolet")){
+            modelsList.add("1500");
+            modelsList.add("3000");
+            modelsList.add("Alero");
+            modelsList.add("Apache");
+            modelsList.add("Długa testowa nazwa dla auta");
+        }else{
+            modelsList.add("Testowy model");
         }
     }
 
