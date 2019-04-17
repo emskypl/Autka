@@ -43,7 +43,7 @@
                 android:layout_gravity="center"
                 android:src="@mipmap/arrow_down" />
         </RelativeLayout>
-
+<!-- TODO (2) ScrollView always above Search Button -->
         <RelativeLayout
             android:layout_width="260dp"
             android:layout_height="wrap_content"
@@ -72,7 +72,6 @@
                 android:src="@mipmap/arrow_down" />
         </RelativeLayout>
     </LinearLayout>
-
     <Button
         android:id="@+id/addRecordButton"
         android:layout_width="70dp"
@@ -85,13 +84,31 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/addedFilterRecordsLayout"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_height="435dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/spinnersLayout"/>
+        app:layout_constraintTop_toBottomOf="@id/spinnersLayout">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/addedFilterRecordsLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"/>
+            <TextView
+                android:id="@+id/testText"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="10dp"
+                android:text="TUTAJ BEDZIE RESZTA FILTROW"
+                android:textAlignment="center"
+                android:background="@drawable/button_background"/>
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
     <Button
         android:id="@+id/searchButton"
@@ -104,4 +121,5 @@
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

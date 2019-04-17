@@ -2,25 +2,32 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="50dp"
-    android:orientation="horizontal" >
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:orientation="horizontal"
+    android:background="@drawable/button_background">
     <TextView
         android:id="@+id/brandName"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="5"
+        android:layout_weight="4"
+        android:textColor="#ffffff"
+        android:textAlignment="center"
         android:inputType="phone"/>
     <TextView
         android:id="@+id/modelName"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:entries="@array/types"
+        android:layout_height="match_parent"
+        android:layout_weight="4"
+        android:textAlignment="center"
+        android:textColor="#ffffff"
         android:gravity="right" />
     <Button
         android:id="@+id/delete_button"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_weight="1"
+        android:textColor="#ffffff"
         android:background="@android:drawable/ic_delete"
         android:onClick="onDelete"/>
 </LinearLayout>

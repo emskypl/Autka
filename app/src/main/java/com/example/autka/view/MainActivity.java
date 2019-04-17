@@ -42,21 +42,15 @@ public class MainActivity extends AppCompatActivity {
     Spinner brandSpinner, modelSpinner;
     ArrayAdapter<String> brandsAdapter, modelsAdapter;
 
-
-
     Button addRecordButton;
     Button searchButton;
     LinearLayout addedRecordsFilterLayout;
-
-
-
-
-
+    Integer recordCounter = 0;
 
     Map<String,String> addedFilterMap;
     public static String textToModelsView = "";
 
-    Intent toSearch;
+    Intent toSearchActivity;
 
     public static <K,V> V getValuesByKey(Map<K,V> map,K key){
         for(Map.Entry<K,V> entry : map.entrySet()) {
@@ -75,7 +69,6 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -90,13 +83,11 @@ public class MainActivity extends AppCompatActivity {
         brands = new Brands();
         models = new Models();
 
-        addedFilterMap = new HashMap<String, String>();
-        toSearch = new Intent(getApplicationContext(),ResultOfSearchActivity.class);
+        toSearchActivity = new Intent(getApplicationContext(),ResultOfSearchActivity.class);
 
         brandsAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item);
         modelsAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item);
 
-        final TextView[] brandName = new TextView[1];
         brands.brandsToArray(brandsAdapter);
         brandsAdapter = brands.getBrandsList();
         brandSpinner.setAdapter(brandsAdapter);
@@ -116,13 +107,21 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        addRecordButton.setOnClickListener(new View.OnClickListener() {
+        searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                startActivity(toSearchActivity);
+            }
+        });
+
+        addRecordButton.setOnClickListener(new View.OnClickListener() {
+
+            public void onClick(View v) {
                 onAddField(v);
-                //TODO (1) Correct adding values to TextViews
-                brandName[addedRecordsFilterLayout.getChildCount()] = (TextView) findViewById(R.id.brandName);
-                brandName[addedRecordsFilterLayout.getChildCount()].setText(brandSpinner.getSelectedItem().toString());
+                toSearchActivity.putExtra("brand"+recordCounter, brandSpinner.getSelectedItem().toString());
+                toSearchActivity.putExtra("model"+recordCounter, modelSpinner.getSelectedItem().toString());
+                recordCounter++;
+                toSearchActivity.putExtra("recordCounter",recordCounter);
             }
         });
 
@@ -131,6 +130,10 @@ public class MainActivity extends AppCompatActivity {
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.field, null);
         addedRecordsFilterLayout.addView(rowView, addedRecordsFilterLayout.getChildCount() - 1);
+        TextView brandTextView = (TextView) rowView.findViewById(R.id.brandName);
+        TextView modelTextView = (TextView) rowView.findViewById(R.id.modelName);
+        brandTextView.setText(brandSpinner.getSelectedItem().toString());
+        modelTextView.setText(modelSpinner.getSelectedItem().toString());
     }
     public void onDelete(View v) {
         addedRecordsFilterLayout.removeView((View) v.getParent());
