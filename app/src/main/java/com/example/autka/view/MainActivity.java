@@ -1,38 +1,26 @@
 package com.example.autka.view;
 import android.content.Context;
 import android.content.Intent;
-import android.database.DataSetObserver;
-import android.graphics.drawable.GradientDrawable;
-import android.opengl.Visibility;
-import android.print.PrintAttributes;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.example.autka.R;
 
 import android.view.LayoutInflater;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import model.Brands;
 import model.Models;
 
-import static android.widget.Toast.LENGTH_LONG;
+//TODO (4) Improve brand/model and create other filters
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -52,22 +40,7 @@ public class MainActivity extends AppCompatActivity {
 
     Intent toSearchActivity;
 
-    public static <K,V> V getValuesByKey(Map<K,V> map,K key){
-        for(Map.Entry<K,V> entry : map.entrySet()) {
-            if(key.equals(entry.getKey()))
-                textToModelsView += entry.getValue();
-            }
-        return null;
-    }
 
-    public static <K,V> V getMapValue(Map<K,V> map, V value, K key){
-        for(Map.Entry<K,V> entry : map.entrySet()) {
-            if(value.equals(entry.getValue()) && key.equals(entry.getKey())){
-                return value;
-            }
-        }
-        return null;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
     public void onAddField(View v){
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.field, null);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+        lp.setMargins(5,5,5,5);
+        rowView.setLayoutParams(lp);
         addedRecordsFilterLayout.addView(rowView, addedRecordsFilterLayout.getChildCount() - 1);
         TextView brandTextView = (TextView) rowView.findViewById(R.id.brandName);
         TextView modelTextView = (TextView) rowView.findViewById(R.id.modelName);

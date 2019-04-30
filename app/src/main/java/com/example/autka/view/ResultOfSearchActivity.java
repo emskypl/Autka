@@ -32,19 +32,22 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultOfSearchActivity extends AppCompatActivity {
 
-
+//TODO (5) Side menu or overflow menu and improve showing each item in ListView
     String basicAuth;
     JSONGetter query;
     private ArrayList<CarJSONModel> mCars;
     Button getCarButton;
-    String[] listviewTitle = new String[]{};
 
     int[] listviewImage = new int[]{
-            R.drawable.audi_gt, R.drawable.audi_rs_5, R.drawable.audi_gt, R.drawable.audi_rs_5,
-            R.drawable.audi_gt, R.drawable.audi_gt, R.drawable.audi_gt, R.drawable.audi_gt,
+            R.drawable.audi_gt, R.drawable.audi_rs_5, R.drawable.toyota_corolla, R.drawable.bmw_7,
+            R.drawable.audi_gt, R.drawable.audi_rs_5, R.drawable.toyota_corolla, R.drawable.bmw_7
     };
 
-    String[] listviewShortDescription = new String[]{};
+    int [] serwislogoImage = new int[]{
+            R.drawable.allegrologo, R.drawable.otomoto_logotyp,R.drawable.allegrologo, R.drawable.otomoto_logotyp,
+            R.drawable.allegrologo, R.drawable.otomoto_logotyp,R.drawable.allegrologo, R.drawable.otomoto_logotyp
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +69,12 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             hm.put("listview_title", extras.getString("brand"+i));
             hm.put("listview_discription", extras.getString("model"+i));
             hm.put("listview_image", Integer.toString(listviewImage[i]));
+            hm.put("serwislogo_image", Integer.toString(serwislogoImage[i]));
             aList.add(hm);
         }
 
-        String[] from = {"listview_image", "listview_title", "listview_discription"};
-        int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description};
+        String[] from = {"listview_image", "listview_title", "listview_discription", "serwislogo_image"};
+        int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description, R.id.serwislogo_image};
 
         SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.listview_record, from, to);
         ListView androidListView = (ListView) findViewById(R.id.list_view);
@@ -93,7 +97,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 headerMap.put("Authorization",basicAuth);
 
                 String searchString = "brand";
-
+                //TODO (3) Create and respone body
                 Call<CarJSONModel> call = searchAPI.search(headerMap, "AND", searchString + "*");
                 call.enqueue(new Callback<CarJSONModel>() {
                     @Override
@@ -103,8 +107,13 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                         if(response.isSuccessful()){
                             Log.e("RESPONSE",response.message().toString());
                             //carJSONModel = response.body();
-                            response.body();
-                            String brand = response.body().getBrand();
+                            if(response.body() != null){
+                                response.body();
+                                String brand = response.body().getBrand();
+                            }else{
+                                Log.e("RESPONE","BODY null");
+                            }
+
                         } else
                         {
                             Log.e("RESPONE", "NIE polaczono");
