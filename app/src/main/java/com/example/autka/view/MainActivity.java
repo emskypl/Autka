@@ -78,8 +78,8 @@ public class MainActivity extends AppCompatActivity {
         searchButton = (Button) findViewById(R.id.searchButton);
 
 
-       // get_elastic = (Button) findViewById(R.id.get_from_elastic);
-      //  elastic_text_view = (TextView) findViewById(R.id.elastic_text_view);
+        get_elastic = (Button) findViewById(R.id.get_from_elastic);
+        elastic_text_view = (TextView) findViewById(R.id.elastic_text_view);
 
         CarsBrands brands = new CarsBrands();
         ArrayAdapter<String> brandsAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item);
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
         year_filter_adapter.add("Rocznik (domyślnie wszystkie)");
         year_filter.setAdapter(year_filter_adapter);
 
-/*        get_elastic.setOnClickListener(new View.OnClickListener() {
+        get_elastic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCars = new ArrayList<Car>();
@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
             }
-        });*/
+        });
 
 
     }
