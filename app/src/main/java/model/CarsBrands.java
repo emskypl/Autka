@@ -2,7 +2,7 @@ package model;
 
 import android.widget.ArrayAdapter;
 
-public class Brands {
+public class CarsBrands {
     private ArrayAdapter<String> brandsList;
 
     public ArrayAdapter<String> getBrandsList() {

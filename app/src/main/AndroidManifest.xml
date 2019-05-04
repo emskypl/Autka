@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".view.ResultOfSearchActivity"></activity>
-        <activity android:name=".view.WelcomePage"></activity>
+        <activity android:name=".view.WelcomeActivity"></activity>
         <activity android:name=".view.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

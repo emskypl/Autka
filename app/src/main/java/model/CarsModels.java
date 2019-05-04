@@ -5,7 +5,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class Models {
+public class CarsModels {
 
     private ArrayAdapter<String> modelsList;
     

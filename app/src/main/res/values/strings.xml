@@ -5,4 +5,8 @@
         <item>Office</item>
         <item>Home</item>
     </string-array>
+
+    <!-- XML Strings -->
+    <string name="year_spinner_hint">Rocznik</string>
+
 </resources>

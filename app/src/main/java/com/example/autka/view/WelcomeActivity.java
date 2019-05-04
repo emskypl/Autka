@@ -7,7 +7,7 @@ import android.os.Bundle;
 
 import com.example.autka.R;
 
-public class WelcomePage extends AppCompatActivity {
+public class WelcomeActivity extends AppCompatActivity {
 
     private static int TIME_OUT = 4000;
 
@@ -20,7 +20,7 @@ public class WelcomePage extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent i = new Intent(WelcomePage.this, MainActivity.class);
+                Intent i = new Intent(WelcomeActivity.this, MainActivity.class);
                 startActivity(i);
                 finish();
             }
