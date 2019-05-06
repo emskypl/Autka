@@ -2,13 +2,13 @@ package model;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 
-import java.util.Date;
 
 @IgnoreExtraProperties
 public class Car {
 
     private String brand;
     private String model;
+    private Double price;
     private String engine;
     private Integer year;
     private Integer hp;
@@ -28,11 +28,12 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, String engine, Integer year, Integer hp, Integer mileage, String color,
+    public Car(String brand, String model, Double price, String engine, Integer year, Integer hp, Integer mileage, String color,
                Boolean damaged, Boolean automated, Boolean fuel, String country_from, String post_id, String url,
                String region, String city, String description, String created_at) {
         this.brand = brand;
         this.model = model;
+        this.price = price;
         this.engine = engine;
         this.year = year;
         this.hp = hp;
@@ -49,6 +50,8 @@ public class Car {
         this.description = description;
         this.created_at = created_at;
     }
+
+
 
     public String getBrand() {
         return brand;
@@ -186,11 +189,20 @@ public class Car {
         this.created_at = created_at;
     }
 
+    public Double getPrice() { return price; }
+
+    public void setPrice(Double price) { this.price = price; }
+
+    public Integer getMileage() { return mileage; }
+
+    public void setMileage(Integer mileage) { this.mileage = mileage; }
+
     @Override
     public String toString() {
         return "Car{" +
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
+                ", price=" + price + '\'' +
                 ", engine='" + engine + '\'' +
                 ", year=" + year +
                 ", hp=" + hp +

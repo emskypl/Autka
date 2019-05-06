@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".view.SingleResultActivity"></activity>
         <activity android:name=".view.ResultOfSearchActivity"></activity>
         <activity android:name=".view.WelcomeActivity"></activity>
         <activity android:name=".view.MainActivity">
