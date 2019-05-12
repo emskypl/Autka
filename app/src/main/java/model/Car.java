@@ -6,6 +6,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 @IgnoreExtraProperties
 public class Car {
 
+    private String image_url;
     private String brand;
     private String model;
     private Double price;
@@ -28,9 +29,10 @@ public class Car {
     public Car() {
     }
 
-    public Car(String brand, String model, Double price, String engine, Integer year, Integer hp, Integer mileage, String color,
+    public Car(String image_url,String brand, String model, Double price, String engine, Integer year, Integer hp, Integer mileage, String color,
                Boolean damaged, Boolean automated, Boolean fuel, String country_from, String post_id, String url,
                String region, String city, String description, String created_at) {
+        this.image_url = image_url;
         this.brand = brand;
         this.model = model;
         this.price = price;
@@ -52,6 +54,9 @@ public class Car {
     }
 
 
+    public String getImage_url() { return image_url; }
+
+    public void setImage_url(String image_url) { this.image_url = image_url; }
 
     public String getBrand() {
         return brand;
@@ -91,14 +96,6 @@ public class Car {
 
     public void setHp(Integer hp) {
         this.hp = hp;
-    }
-
-    public Integer getmileage() {
-        return mileage;
-    }
-
-    public void setmileage(Integer mileage) {
-        this.mileage = mileage;
     }
 
     public String getColor() {
@@ -200,6 +197,7 @@ public class Car {
     @Override
     public String toString() {
         return "Car{" +
+                "image_url=" + image_url +'\'' +
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", price=" + price + '\'' +

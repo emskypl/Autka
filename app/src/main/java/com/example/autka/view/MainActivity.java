@@ -1,7 +1,6 @@
 package com.example.autka.view;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,16 +17,9 @@ import com.example.autka.R;
 import com.shashank.sony.fancytoastlib.FancyToast;
 
 import android.view.LayoutInflater;
-
-import org.w3c.dom.Text;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
 import java.util.List;
-import controler.ElasticSearchApi;
-import model.Car;
 import model.CarsBrands;
 import model.CarsModels;
 import model.HitsList;
@@ -42,7 +34,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 //import org.elasticsearch.action.search.SearchType;
 //import org.elasticsearch.index.query.QueryBuilder.*;
 
-
+// TODO(1) Improve adding nad removing filters
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";

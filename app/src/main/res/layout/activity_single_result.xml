@@ -18,7 +18,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <ImageView
-                    android:id="@+id/images_single_result"
+                    android:id="@+id/image_single_result"
                     android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:src="@drawable/audi_gt"/>
@@ -85,10 +85,37 @@
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/brand_layout_single_result"
+                android:id="@+id/price_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/url_layout_single_result"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Cena: "
+                        android:gravity="center_vertical|left"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/price_single_result"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="100000"
+                        android:gravity="right"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/brand_layout_single_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/price_layout_single_result"
                 android:padding="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -139,10 +166,37 @@
                 </LinearLayout>
             </RelativeLayout>
             <RelativeLayout
-                android:id="@+id/hp_layout_single_result"
+                android:id="@+id/engine_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/model_layout_single_result"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Pojemność sinika: "
+                        android:gravity="center_vertical|left"
+                        android:textSize="20sp"/>
+                    <TextView
+                        android:id="@+id/engine_single_result"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="4.0"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/hp_layout_single_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/engine_layout_single_result"
                 android:padding="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"

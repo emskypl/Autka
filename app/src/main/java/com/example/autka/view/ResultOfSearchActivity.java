@@ -35,7 +35,8 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     private static final String BASE_URL = "http://35.242.198.46//elasticsearch/posts/car/";
     private static final String ELASTIC_PASSWORD = "jMBN8LfUeZKo";
 
-    // TODO (1) Correct showing results (working but need sync, not async), improve single element design
+    // TODO (2) Show image from server
+    // TODO (3) Correct showing results (working but need sync, not async)
 
     int[] listviewImage = new int[]{R.drawable.audi_gt, R.drawable.audi_rs_5};
     int [] serwislogoImage = new int[]{R.drawable.allegrologo, R.drawable.otomoto_logotyp};
@@ -75,7 +76,6 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         HashMap<String, String> headerMap = new HashMap<String, String>();
         headerMap.put("Authorization", Credentials.basic("user",ELASTIC_PASSWORD));
         Call<HitsObject> call = searchAPI.search(headerMap, "OR", searchString);
-
         call.enqueue(new Callback<HitsObject>() {
             @Override
             public void onResponse(Call<HitsObject> call, Response<HitsObject> response) {
@@ -133,7 +133,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         }
 
         String[] from = {"listview_image", "listview_title", "listview_discription", "serwislogo_image"};
-        int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description, R.id.serwislogo_image};
+        final int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description, R.id.serwislogo_image};
         SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.listview_record, from, to);
         androidListView.setAdapter(simpleAdapter);
         Log.d(TAG, "addListElements: Records added");
@@ -142,6 +142,23 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick: item id" + id);
                 Intent toSingleResult = new Intent(getApplicationContext(),SingleResultActivity.class);
+                toSingleResult.putExtra("image_url",mCars.get(position).getImage_url());
+                toSingleResult.putExtra("created_at",mCars.get(position).getCreated_at());
+                toSingleResult.putExtra("url",mCars.get(position).getUrl());
+                toSingleResult.putExtra("price",mCars.get(position).getPrice());
+                toSingleResult.putExtra("brand",mCars.get(position).getBrand());
+                toSingleResult.putExtra("model",mCars.get(position).getModel());
+                toSingleResult.putExtra("engine",mCars.get(position).getEngine());
+                toSingleResult.putExtra("hp",mCars.get(position).getHp());
+                toSingleResult.putExtra("mileage",mCars.get(position).getMileage());
+                toSingleResult.putExtra("color",mCars.get(position).getColor());
+                toSingleResult.putExtra("damaged",mCars.get(position).getDamaged());
+                toSingleResult.putExtra("automated",mCars.get(position).getAutomated());
+                toSingleResult.putExtra("fuel",mCars.get(position).getFuel());
+                toSingleResult.putExtra("country_from",mCars.get(position).getCountry_from());
+                toSingleResult.putExtra("region",mCars.get(position).getRegion());
+                toSingleResult.putExtra("city",mCars.get(position).getCity());
+                toSingleResult.putExtra("description",mCars.get(position).getDescription());
                 startActivity(toSingleResult);
             }
         });

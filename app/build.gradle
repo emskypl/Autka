@@ -45,7 +45,8 @@ dependencies {
     implementation 'com.github.Shashank02051997:FancyToast-Android:0.+'
     //elasticsearch
     //implementation group: 'org.elasticsearch.client', name: 'transport',version:'7.0.1'
-
+    //picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     //tests
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
