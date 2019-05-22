@@ -310,19 +310,6 @@
                     android:hint="Miasto"
                     android:inputType="text"/>
             </RelativeLayout>
-
-            <Button
-                android:id="@+id/get_from_elastic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="GET"
-                android:layout_below="@id/city_layout"
-                android:padding="10dp"/>
-            <TextView
-                android:id="@+id/elastic_text_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/get_from_elastic"/>
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>

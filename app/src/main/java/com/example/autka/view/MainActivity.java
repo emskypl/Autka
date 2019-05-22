@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.autka.R;
-import com.shashank.sony.fancytoastlib.FancyToast;
+//import com.shashank.sony.fancytoastlib.FancyToast;
 
 import android.view.LayoutInflater;
 import java.util.ArrayList;
@@ -24,12 +24,7 @@ import model.CarsBrands;
 import model.CarsModels;
 import model.HitsList;
 import model.HitsObject;
-import okhttp3.Credentials;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 //import org.elasticsearch.action.search.SearchResponse;
 //import org.elasticsearch.action.search.SearchType;
 //import org.elasticsearch.index.query.QueryBuilder.*;
@@ -38,6 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private static final String quote = "\u005c\u0022";
 
     //filter elements
     private Spinner brandSpinner, modelSpinner;
@@ -164,26 +160,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void searchStringCreate(){
-        //TODO (elastic) AND and OR in one query
+
         if(brandList.size()>0){
-            for(String value : brandList){
-                searchString = searchString + " brand:" + value;
-                Log.d(TAG, "searchStringCreate: brand: "+value);
+            searchString = searchString + "(";
+            for(int i=0; i<brandList.size();i++){
+                searchString = searchString + "((" + "brand:" + quote + brandList.get(i) + quote + ")AND(" + "model:" + quote + modelList.get(i) + quote+ "))";
+                if(i<brandList.size()-1){
+                    searchString = searchString + "OR";
+                }
+                Log.d(TAG, "searchStringCreate: +brandAndModel: " + searchString );
             }
+            searchString = searchString + ")";
+
+
         }
-        if(modelList.size()>0){
-            for(String value : modelList){
-                searchString = searchString + " model:" + value;
-                Log.d(TAG, "searchStringCreate: model: "+value);
-            }
+        // TODO (elastic) range in engine, hp, mileage
+        if(!min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
+            // TODO extra (elastic) parse_exception, problem with []
+            //searchString = searchString + "AND(price:\u005c\u005c[\u005c\u005c" + quote + min_price_filter.getText() + quote + "+TO+" + quote + max_price_filter.getText() + quote + "\u005c\u005c]\u005c\u005c)";
+            searchString = searchString + "AND(price:((>=" + min_price_filter.getText() + ")AND(<=" + max_price_filter.getText() + ")))";
+            Log.d(TAG, "searchStringCreate: +price:" + searchString);
+        }else if(!min_price_filter.getText().toString().equals("") && max_price_filter.getText().toString().equals("")){
+            searchString = searchString + "AND(price:>=" + quote + min_price_filter.getText() + quote + ")";
+        }else if(min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
+            searchString = searchString + "AND(price:<=" + max_price_filter.getText() + ")";
         }
-        // TODO (elastic) range in price, engine, hp, mileage
-        if(!min_price_filter.getText().toString().equals("")){
-            Log.d(TAG, "searchStringCreate: min_price aft"+min_price_filter.getText());
-            searchString = searchString + " price:" + min_price_filter.getText().toString();
-        }
-        if(!min_engine_filter.getText().toString().equals("")){
-            searchString = searchString + " engine:" + min_engine_filter.getText().toString();
+        if(!min_engine_filter.getText().toString().equals("") && !max_engine_filter.getText().toString().equals("")){
+            searchString = searchString + "AND(engine:(>=" + quote + min_price_filter.getText() + quote + "AND<=" + quote + max_price_filter.getText() + quote + "))";
         }
         if(!min_hp_filter.getText().toString().equals("")){
             searchString = searchString + " hp:" + min_hp_filter.getText().toString();

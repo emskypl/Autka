@@ -1,16 +1,18 @@
 package com.example.autka.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.autka.R;
 import com.squareup.picasso.Picasso;
 
-//TODO (2) Images viewing
 public class SingleResultActivity extends AppCompatActivity {
 
     private static final String TAG = "SingleResultActivity";
@@ -32,7 +34,7 @@ public class SingleResultActivity extends AppCompatActivity {
     private TextView region;
     private TextView city;
     private TextView description;
-
+    private ImageView serwisLogo;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,14 +57,27 @@ public class SingleResultActivity extends AppCompatActivity {
         region = findViewById(R.id.region_single_result);
         city = findViewById(R.id.city_single_result);
         description = findViewById(R.id.description_single_result);
+        serwisLogo = findViewById(R.id.serwis_logo_single_result);
         init();
     }
 
     private void init() {
+
         Bundle extras = getIntent().getExtras();
-        Picasso.get().load(extras.getString("image_url")).resize(300,200).into(image);
+        Picasso.get().load(extras.getString("image_url")).resize(1000,800).into(image);
         created_at.setText(extras.getString("created_at"));
         url.setText(extras.getString("url"));
+        if (!url.getText().toString().startsWith("http://") && !url.getText().toString().startsWith("https://"))
+            url.setText("http://" + url);
+        boolean isAllegro = url.getText().toString().contains("allegro");
+        boolean isOtomoto = url.getText().toString().contains("otomoto");
+
+        if(isAllegro){
+            Picasso.get().load(R.drawable.allegrologo).into(serwisLogo);
+        }
+        if(isOtomoto){
+            Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo);
+        }
         price.setText(extras.getString("price"));
         brand.setText(extras.getString("brand"));
         model.setText(extras.getString("model"));
@@ -91,5 +106,14 @@ public class SingleResultActivity extends AppCompatActivity {
         description.setText(extras.getString("description"));
         Log.d(TAG, "init: " + extras.toString());
         extras.clear();
+
+        url.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW).setData(Uri.parse(url.getText().toString()));
+                startActivity(browserIntent);
+            }
+        });
+
     }
 }

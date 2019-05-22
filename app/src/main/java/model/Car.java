@@ -1,9 +1,9 @@
 package model;
-
+/*
 import com.google.firebase.database.IgnoreExtraProperties;
 
 
-@IgnoreExtraProperties
+@IgnoreExtraProperties*/
 public class Car {
 
     private String image_url;

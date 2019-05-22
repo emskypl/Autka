@@ -5,24 +5,47 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
-
+import android.widget.TextView;
 import com.example.autka.R;
 import com.shashank.sony.fancytoastlib.FancyToast;
+import com.squareup.picasso.Picasso;
+
+import org.apache.http.HttpHost;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
+import org.apache.http.client.CredentialsProvider;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
+import org.elasticsearch.action.Action;
+import org.elasticsearch.action.ActionFuture;
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.ActionRequest;
+import org.elasticsearch.action.ActionResponse;
+import org.elasticsearch.client.ElasticsearchClient;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestClientBuilder;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.threadpool.ThreadPool;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
+import java.util.Map;
 
 import controler.ElasticSearchApi;
 import model.Car;
 import model.HitsList;
 import model.HitsObject;
 import okhttp3.Credentials;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -31,17 +54,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultOfSearchActivity extends AppCompatActivity {
 
-    private static final String TAG = "ResultOfSearchActivity";
-    private static final String BASE_URL = "http://35.242.198.46//elasticsearch/posts/car/";
-    private static final String ELASTIC_PASSWORD = "jMBN8LfUeZKo";
-
-    // TODO (2) Show image from server
     // TODO (3) Correct showing results (working but need sync, not async)
 
-    int[] listviewImage = new int[]{R.drawable.audi_gt, R.drawable.audi_rs_5};
-    int [] serwislogoImage = new int[]{R.drawable.allegrologo, R.drawable.otomoto_logotyp};
+    private static final String TAG = "ResultOfSearchActivity";
+    private static final String BASE_URL = "http://35.242.198.46/elasticsearch/posts/car/";
+    private static final String ELASTIC_PASSWORD = "jMBN8LfUeZKo";
 
-    private ArrayList<Car> mCars = new ArrayList<Car>();;
+    private ArrayList<Car> mCars = new ArrayList<Car>();
     private String searchString = "";
 
     @Override
@@ -49,12 +68,12 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_of_search);
         FancyToast.makeText(getApplicationContext(),"Szukam...", FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
-
         getCarsFromServer();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 addListElements();
+
             }
         },1000);
 
@@ -63,16 +82,49 @@ public class ResultOfSearchActivity extends AppCompatActivity {
 
     private void getCarsFromServer(){
         Bundle extras = getIntent().getExtras();
+
+
+
+        /*
+        ElasticSearchApi response
+        */
+        final CredentialsProvider credentialsProvider =
+                new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials("user",ELASTIC_PASSWORD));
+        /*
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("BASE_URL", 9200, "http")).setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
+                    @Override
+                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
+                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+                    }
+                })
+        );
+        *//*
+        RestClient restClient = RestClient.builder(
+                new HttpHost(BASE_URL,9200,"http")
+        ).build();
+
+
+        TODO (!) Elasticsearch API - classpath INSTANCE
+        TODO (!!) If elasticApi doesnt work, retrofit body query
+         */
+
+
+
+
+       //  Retrofit query response from elasticsearch
+
+
         searchString = extras.getString("searchString");
         Log.d(TAG, "getCarsFromServer: search_string:" + searchString);
-
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-
         ElasticSearchApi searchAPI = retrofit.create(ElasticSearchApi.class);
-
         HashMap<String, String> headerMap = new HashMap<String, String>();
         headerMap.put("Authorization", Credentials.basic("user",ELASTIC_PASSWORD));
         Call<HitsObject> call = searchAPI.search(headerMap, "OR", searchString);
@@ -86,8 +138,9 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                         Log.d(TAG, "onResponse: response success");
                         hitsList = response.body().getHitsList();
                     } else {
-                        Log.d(TAG, "onResponse: response failed");
                         jsonRespone = response.errorBody().string();
+                        Log.d(TAG, "onResponse: response failed" +jsonRespone);
+
                     }
 
                     Log.e(TAG, "onResponse: hits" + hitsList);
@@ -120,47 +173,90 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     private void addListElements() {
 
         ListView androidListView = (ListView) findViewById(R.id.list_view);
-        List<HashMap<String, String>> aList = new ArrayList<HashMap<String, String>>();
-        Log.d(TAG, "addListElements: mCars size:" + mCars.size());
+        CustomAdapter customAdapter = new CustomAdapter();
+        androidListView.setAdapter(customAdapter);
 
-        for (int i = 0; i < mCars.size(); i++) {
-            HashMap<String, String> hashMap = new HashMap<String, String>();
-            hashMap.put("listview_title", mCars.get(i).getBrand() + " " + mCars.get(i).getModel());
-            hashMap.put("listview_discription", mCars.get(i).getPrice().toString());
-            hashMap.put("listview_image", Integer.toString(listviewImage[1]));
-            hashMap.put("serwislogo_image", Integer.toString(serwislogoImage[1]));
-            aList.add(hashMap);
-        }
 
-        String[] from = {"listview_image", "listview_title", "listview_discription", "serwislogo_image"};
-        final int[] to = {R.id.listview_image, R.id.listview_item_title, R.id.listview_item_short_description, R.id.serwislogo_image};
-        SimpleAdapter simpleAdapter = new SimpleAdapter(getBaseContext(), aList, R.layout.listview_record, from, to);
-        androidListView.setAdapter(simpleAdapter);
-        Log.d(TAG, "addListElements: Records added");
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick: item id" + id);
-                Intent toSingleResult = new Intent(getApplicationContext(),SingleResultActivity.class);
-                toSingleResult.putExtra("image_url",mCars.get(position).getImage_url());
-                toSingleResult.putExtra("created_at",mCars.get(position).getCreated_at());
-                toSingleResult.putExtra("url",mCars.get(position).getUrl());
-                toSingleResult.putExtra("price",mCars.get(position).getPrice());
-                toSingleResult.putExtra("brand",mCars.get(position).getBrand());
-                toSingleResult.putExtra("model",mCars.get(position).getModel());
-                toSingleResult.putExtra("engine",mCars.get(position).getEngine());
-                toSingleResult.putExtra("hp",mCars.get(position).getHp());
-                toSingleResult.putExtra("mileage",mCars.get(position).getMileage());
-                toSingleResult.putExtra("color",mCars.get(position).getColor());
-                toSingleResult.putExtra("damaged",mCars.get(position).getDamaged());
-                toSingleResult.putExtra("automated",mCars.get(position).getAutomated());
-                toSingleResult.putExtra("fuel",mCars.get(position).getFuel());
-                toSingleResult.putExtra("country_from",mCars.get(position).getCountry_from());
-                toSingleResult.putExtra("region",mCars.get(position).getRegion());
-                toSingleResult.putExtra("city",mCars.get(position).getCity());
-                toSingleResult.putExtra("description",mCars.get(position).getDescription());
+                Intent toSingleResult = new Intent(getApplicationContext(), SingleResultActivity.class);
+                toSingleResult.putExtra("image_url", mCars.get(position).getImage_url());
+                toSingleResult.putExtra("created_at", mCars.get(position).getCreated_at());
+                toSingleResult.putExtra("url", mCars.get(position).getUrl());
+                toSingleResult.putExtra("price", mCars.get(position).getPrice());
+                toSingleResult.putExtra("brand", mCars.get(position).getBrand());
+                toSingleResult.putExtra("model", mCars.get(position).getModel());
+                toSingleResult.putExtra("engine", mCars.get(position).getEngine());
+                toSingleResult.putExtra("hp", mCars.get(position).getHp());
+                toSingleResult.putExtra("mileage", mCars.get(position).getMileage());
+                toSingleResult.putExtra("color", mCars.get(position).getColor());
+                toSingleResult.putExtra("damaged", mCars.get(position).getDamaged());
+                toSingleResult.putExtra("automated", mCars.get(position).getAutomated());
+                toSingleResult.putExtra("fuel", mCars.get(position).getFuel());
+                toSingleResult.putExtra("country_from", mCars.get(position).getCountry_from());
+                toSingleResult.putExtra("region", mCars.get(position).getRegion());
+                toSingleResult.putExtra("city", mCars.get(position).getCity());
+                toSingleResult.putExtra("description", mCars.get(position).getDescription());
                 startActivity(toSingleResult);
             }
         });
+    }
+
+    public class CustomAdapter extends BaseAdapter{
+
+        @Override
+        public int getCount() {
+            return mCars.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+
+            view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_record,null);
+           // view = getLayoutInflater().inflate(R.layout.listview_record, null);
+            TextView brandAndModel = (TextView) view.findViewById(R.id.listview_item_title);
+            TextView price = (TextView) view.findViewById(R.id.listview_item_price);
+            TextView year = (TextView) view.findViewById(R.id.listview_item_year);
+            final ImageView imageView = (ImageView) view.findViewById(R.id.listview_item_image);
+            ImageView serwisLogo = (ImageView) view.findViewById(R.id.serwislogo_item_image);
+
+            brandAndModel.setText(mCars.get(i).getBrand() + " " + mCars.get(i).getModel());
+            price.setText(mCars.get(i).getPrice().toString() + " zł");
+            year.setText(mCars.get(i).getYear().toString());
+
+            Picasso.get().load(mCars.get(i).getImage_url()).resize(300,200).into(imageView, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() {
+
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    imageView.setImageResource(R.drawable.audi_gt);
+                }
+            });
+            boolean isAllegro = mCars.get(i).getUrl().contains("allegro");
+            boolean isOtomoto = mCars.get(i).getUrl().contains("otomoto");
+
+            if(isAllegro){
+                Picasso.get().load(R.drawable.allegrologo).into(serwisLogo);
+            }
+            if(isOtomoto){
+                Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo);
+            }
+            return view;
+        }
     }
 }

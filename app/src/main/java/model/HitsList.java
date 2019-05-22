@@ -1,12 +1,10 @@
 package model;
 
-import com.google.firebase.database.IgnoreExtraProperties;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
 
-@IgnoreExtraProperties
+import java.util.List;
 public class HitsList {
 
     @SerializedName("hits")

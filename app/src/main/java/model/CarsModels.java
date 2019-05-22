@@ -54,7 +54,7 @@ public class CarsModels {
             modelsList.add("TT S");
         } else if(brand.equals("BMW")){
             modelsList.add("3");
-            modelsList.add("5");
+            modelsList.add("525");
             modelsList.add("7");
             modelsList.add("M5");
         } else if (brand.equals("Chevrolet")){

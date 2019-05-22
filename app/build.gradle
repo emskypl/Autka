@@ -4,23 +4,49 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.autka"
-        minSdkVersion 24
+        minSdkVersion 26
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+        exclude 'META-INF/ASL2.0'
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
 }
 
 repositories {
     jcenter()
     maven { url "https://jitpack.io" }
+    maven {
+        name 'lucene-snapshots'
+        url 'https://s3.amazonaws.com/download.elasticsearch.org/lucenesnapshots/83f9835'
+    }
     mavenCentral()
 }
 
@@ -34,22 +60,26 @@ dependencies {
     //retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     //universal image loader
-    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    //implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     //firebase
-    implementation 'com.google.firebase:firebase-auth:11.4.2'
+    //implementation 'com.google.firebase:firebase-auth:11.4.2'
     //firebase cloud
-    implementation 'com.google.firebase:firebase-database:11.4.2'
+    //implementation 'com.google.firebase:firebase-database:11.4.2'
     //firebase storage
-    implementation 'com.google.firebase:firebase-storage:11.4.2'
+    //implementation 'com.google.firebase:firebase-storage:11.4.2'
     //fancy toast
     implementation 'com.github.Shashank02051997:FancyToast-Android:0.+'
     //elasticsearch
-    //implementation group: 'org.elasticsearch.client', name: 'transport',version:'7.0.1'
+    implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:7.1.0'
+
     //picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
-
+    //multidex
+    implementation 'com.android.support:multidex:1.0.3'
     //tests
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     testImplementation 'junit:junit:4.12'
+
+
 }
