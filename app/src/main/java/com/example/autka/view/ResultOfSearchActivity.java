@@ -16,36 +16,14 @@ import android.widget.TextView;
 import com.example.autka.R;
 import com.shashank.sony.fancytoastlib.FancyToast;
 import com.squareup.picasso.Picasso;
-
-import org.apache.http.HttpHost;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.nio.client.HttpAsyncClientBuilder;
-import org.elasticsearch.action.Action;
-import org.elasticsearch.action.ActionFuture;
-import org.elasticsearch.action.ActionListener;
-import org.elasticsearch.action.ActionRequest;
-import org.elasticsearch.action.ActionResponse;
-import org.elasticsearch.client.ElasticsearchClient;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestClientBuilder;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.threadpool.ThreadPool;
-
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-
 import controler.ElasticSearchApi;
 import model.Car;
 import model.HitsList;
 import model.HitsObject;
 import okhttp3.Credentials;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,8 +31,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultOfSearchActivity extends AppCompatActivity {
-
-    // TODO (3) Correct showing results (working but need sync, not async)
 
     private static final String TAG = "ResultOfSearchActivity";
     private static final String BASE_URL = "http://35.242.198.46/elasticsearch/posts/car/";
@@ -67,7 +43,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_of_search);
-        FancyToast.makeText(getApplicationContext(),"Szukam...", FancyToast.LENGTH_LONG,FancyToast.INFO,false).show();
+        FancyToast.makeText(getApplicationContext(), "Szukam...", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
         getCarsFromServer();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -75,48 +51,15 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 addListElements();
 
             }
-        },1000);
-
-
+        }, 1000);
     }
 
-    private void getCarsFromServer(){
+    private void getCarsFromServer() {
         Bundle extras = getIntent().getExtras();
 
-
-
         /*
-        ElasticSearchApi response
+          GET by uri from elasticsearch
         */
-        final CredentialsProvider credentialsProvider =
-                new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials("user",ELASTIC_PASSWORD));
-        /*
-        RestHighLevelClient client = new RestHighLevelClient(
-                RestClient.builder(
-                        new HttpHost("BASE_URL", 9200, "http")).setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
-                    @Override
-                    public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpClientBuilder) {
-                        return httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
-                    }
-                })
-        );
-        *//*
-        RestClient restClient = RestClient.builder(
-                new HttpHost(BASE_URL,9200,"http")
-        ).build();
-
-
-        TODO (!) Elasticsearch API - classpath INSTANCE
-        TODO (!!) If elasticApi doesnt work, retrofit body query
-         */
-
-
-
-
-       //  Retrofit query response from elasticsearch
-
 
         searchString = extras.getString("searchString");
         Log.d(TAG, "getCarsFromServer: search_string:" + searchString);
@@ -126,7 +69,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 .build();
         ElasticSearchApi searchAPI = retrofit.create(ElasticSearchApi.class);
         HashMap<String, String> headerMap = new HashMap<String, String>();
-        headerMap.put("Authorization", Credentials.basic("user",ELASTIC_PASSWORD));
+        headerMap.put("Authorization", Credentials.basic("user", ELASTIC_PASSWORD));
         Call<HitsObject> call = searchAPI.search(headerMap, "OR", searchString);
         call.enqueue(new Callback<HitsObject>() {
             @Override
@@ -139,43 +82,37 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                         hitsList = response.body().getHitsList();
                     } else {
                         jsonRespone = response.errorBody().string();
-                        Log.d(TAG, "onResponse: response failed" +jsonRespone);
-
+                        Log.d(TAG, "onResponse: response failed" + jsonRespone);
                     }
-
                     Log.e(TAG, "onResponse: hits" + hitsList);
-                    for(int i = 0; i < hitsList.getCarIndex().size(); i++){
+
+                    for (int i = 0; i < hitsList.getCarIndex().size(); i++) {
                         Log.d(TAG, "onResponse: hit: " + hitsList.getCarIndex().get(i).getCar().toString());
                         mCars.add(hitsList.getCarIndex().get(i).getCar());
                     }
-                    Log.d(TAG, "onResponse: size"+ mCars.size());
-                    FancyToast.makeText(getApplicationContext(),"Znaleziono " + mCars.size() + " ofert", FancyToast.LENGTH_LONG,FancyToast.SUCCESS,false).show();
-                }catch (NullPointerException e){
+                    Log.d(TAG, "onResponse: size" + mCars.size());
+                    FancyToast.makeText(getApplicationContext(), "Znaleziono " + mCars.size() + " ofert", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+
+                } catch (NullPointerException e) {
                     Log.e(TAG, "onResponse: NullPointerException" + e.getMessage());
-                }catch (IndexOutOfBoundsException e){
+                } catch (IndexOutOfBoundsException e) {
                     Log.e(TAG, "onResponse: IndexOutOfBoundsException" + e.getMessage());
-                }catch (IOException e){
+                } catch (IOException e) {
                     Log.e(TAG, "onResponse: IOException" + e.getMessage());
                 }
             }
-
             @Override
-            public void onFailure(Call<HitsObject> call, Throwable t) {
-
-            }
-
+            public void onFailure(Call<HitsObject> call, Throwable t) { }
         });
-        Log.d(TAG, "onResponse: size after respone"+ mCars.size());
+        Log.d(TAG, "onResponse: size after respone" + mCars.size());
         searchString = "";
     }
 
 
     private void addListElements() {
-
         ListView androidListView = (ListView) findViewById(R.id.list_view);
         CustomAdapter customAdapter = new CustomAdapter();
         androidListView.setAdapter(customAdapter);
-
 
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -204,7 +141,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         });
     }
 
-    public class CustomAdapter extends BaseAdapter{
+    public class CustomAdapter extends BaseAdapter {
 
         @Override
         public int getCount() {
@@ -224,38 +161,29 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
 
-            view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_record,null);
-           // view = getLayoutInflater().inflate(R.layout.listview_record, null);
+            view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_record, null);
             TextView brandAndModel = (TextView) view.findViewById(R.id.listview_item_title);
             TextView price = (TextView) view.findViewById(R.id.listview_item_price);
             TextView year = (TextView) view.findViewById(R.id.listview_item_year);
             final ImageView imageView = (ImageView) view.findViewById(R.id.listview_item_image);
             ImageView serwisLogo = (ImageView) view.findViewById(R.id.serwislogo_item_image);
-
             brandAndModel.setText(mCars.get(i).getBrand() + " " + mCars.get(i).getModel());
-            price.setText(mCars.get(i).getPrice().toString() + " zł");
-            year.setText(mCars.get(i).getYear().toString());
+            try {
+                price.setText(mCars.get(i).getPrice().toString() + " zł");
+                year.setText(mCars.get(i).getYear().toString());
+                Picasso.get().load(mCars.get(i).getImage_url()).resize(300, 200).into(imageView, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() { }
 
-            Picasso.get().load(mCars.get(i).getImage_url()).resize(300,200).into(imageView, new com.squareup.picasso.Callback() {
-                @Override
-                public void onSuccess() {
+                    @Override
+                    public void onError(Exception e) { imageView.setImageResource(R.drawable.audi_gt); }
+                });
+                boolean isAllegro = mCars.get(i).getUrl().contains("allegro");
+                boolean isOtomoto = mCars.get(i).getUrl().contains("otomoto");
 
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    imageView.setImageResource(R.drawable.audi_gt);
-                }
-            });
-            boolean isAllegro = mCars.get(i).getUrl().contains("allegro");
-            boolean isOtomoto = mCars.get(i).getUrl().contains("otomoto");
-
-            if(isAllegro){
-                Picasso.get().load(R.drawable.allegrologo).into(serwisLogo);
-            }
-            if(isOtomoto){
-                Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo);
-            }
+                if (isAllegro) { Picasso.get().load(R.drawable.allegrologo).into(serwisLogo); }
+                if (isOtomoto) { Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo); }
+            } catch (Exception e) { }
             return view;
         }
     }

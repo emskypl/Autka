@@ -1,9 +1,6 @@
 package model;
 
 import android.widget.ArrayAdapter;
-import android.widget.Toast;
-
-import java.util.ArrayList;
 
 public class CarsModels {
 

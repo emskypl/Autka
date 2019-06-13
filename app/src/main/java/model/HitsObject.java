@@ -9,11 +9,9 @@ public class HitsObject {
     @Expose
 
     private HitsList hitsList;
-
     public HitsList getHitsList() {
         return hitsList;
     }
-
     public void setHitsList(HitsList hitsList) {
         this.hitsList = hitsList;
     }

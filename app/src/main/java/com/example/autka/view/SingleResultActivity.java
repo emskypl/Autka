@@ -71,13 +71,8 @@ public class SingleResultActivity extends AppCompatActivity {
             url.setText("http://" + url);
         boolean isAllegro = url.getText().toString().contains("allegro");
         boolean isOtomoto = url.getText().toString().contains("otomoto");
-
-        if(isAllegro){
-            Picasso.get().load(R.drawable.allegrologo).into(serwisLogo);
-        }
-        if(isOtomoto){
-            Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo);
-        }
+        if(isAllegro){ Picasso.get().load(R.drawable.allegrologo).into(serwisLogo); }
+        if(isOtomoto){ Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo); }
         price.setText(extras.getString("price"));
         brand.setText(extras.getString("brand"));
         model.setText(extras.getString("model"));
@@ -114,6 +109,5 @@ public class SingleResultActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
-
     }
 }

@@ -1,9 +1,7 @@
 package controler;
 
 import java.util.Map;
-
 import model.HitsObject;
-
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.HeaderMap;
@@ -17,5 +15,4 @@ public interface ElasticSearchApi {
                 @Query("default_operator") String operator,
                 @Query("q") String query
     );
-
 }

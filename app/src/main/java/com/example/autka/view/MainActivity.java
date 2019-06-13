@@ -1,4 +1,5 @@
 package com.example.autka.view;
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -14,22 +15,13 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.autka.R;
-//import com.shashank.sony.fancytoastlib.FancyToast;
-
 import android.view.LayoutInflater;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import model.CarsBrands;
 import model.CarsModels;
-import model.HitsList;
-import model.HitsObject;
 
-//import org.elasticsearch.action.search.SearchResponse;
-//import org.elasticsearch.action.search.SearchType;
-//import org.elasticsearch.index.query.QueryBuilder.*;
-
-// TODO(1) Improve adding nad removing filters
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
@@ -59,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
 
     //elasticsearch
     String searchString = "";
-    // TODO (Later) Rozwazyc zmiane struktury danych (kolekcji), moze Map?
     private List<String> brandList;
     private List<String> modelList;
 
@@ -98,9 +89,6 @@ public class MainActivity extends AppCompatActivity {
         //elasticsearch
         brandList = new ArrayList<>();
         modelList = new ArrayList<>();
-
-        //spinner init
-
 
         init();
     }
@@ -171,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.d(TAG, "searchStringCreate: +brandAndModel: " + searchString );
             }
             searchString = searchString + ")";
-
-
+        }else{
+            searchString = "*";
         }
         // TODO (elastic) range in engine, hp, mileage
         if(!min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
@@ -257,10 +245,8 @@ public class MainActivity extends AppCompatActivity {
                     brandList.remove(i);
                     modelList.remove(i);
                 }
-
             }
         }
-
         addedRecordsFilterLayout.removeView((View) v.getParent());
     }
 }
