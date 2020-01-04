@@ -1,186 +1,289 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<!-- the whole screen -->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:padding="10dp"
-    tools:context=".view.MainActivity">
-    <!--android:background="#e5e5e5"-->
+    android:background="@drawable/gradient_background"
+    tools:context=".view.MainActivity"
+>
 
+    <!-- the toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbar_layout"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="8dp"
+
+        android:background="@drawable/gradient_main"
+        >
+
+        <Button
+            android:id="@+id/menuButton"
+
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:layout_alignParentStart="true"
+
+
+            android:text="MENU"
+            android:textSize="10dp"
+            android:textColor="#ffffff"
+
+            android:background="@color/colorAccent"
+            />
+
+        <Button
+            android:id="@+id/clearButton"
+
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+
+            android:layout_alignParentEnd="true"
+
+            android:text="CLEAR"
+            android:textSize="10dp"
+            android:textColor="#ffffff"
+
+            android:background="@color/colorAccent"
+            />
+
+    </RelativeLayout>
+
+    <!-- form scrollview BELOW TOOLBAR -->
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scrollView"
+
+        android:layout_below="@+id/toolbar_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="40dp">
+        android:layout_height="match_parent">
+
+        <!-- all of form content INSIDE SCROLLVIEW -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+
+            android:paddingBottom="112dp">
+
+            <!-- model & brand INSIDE FORM CONTENT -->
             <RelativeLayout
                 android:id="@+id/brand_model_layout"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:padding="10dp">
+
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                >
+
+                <LinearLayout
+                    android:id="@+id/spinnerLayout"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+
+                    android:layout_toStartOf="@+id/addRecordButton"
+                    >
 
                 <Spinner
+
                     android:id="@+id/brandSpinner"
-                    android:layout_width="260dp"
-                    android:layout_height="30dp"
+                    style="@style/big_spinner_style"
+
+                    android:minHeight="40dp"
+
+                    android:layout_marginBottom="10dp"
                     android:spinnerMode="dropdown"
-                    android:layout_marginBottom="10dp" />
+                    />
 
                 <Spinner
                     android:id="@+id/modelSpinner"
-                    android:layout_width="260dp"
-                    android:layout_height="30dp"
-                    android:layout_below="@id/brandSpinner"
-                    android:spinnerMode="dropdown" />
+                    style="@style/big_spinner_style"
+
+                    android:minHeight="40dp"
+
+                    android:layout_marginBottom="4dp"
+
+                    android:spinnerMode="dropdown"
+                    />
+                </LinearLayout>
+
                 <Button
                     android:id="@+id/addRecordButton"
+                    style="@style/orange_button"
+
                     android:layout_width="70dp"
-                    android:layout_height="70dp"
-                    android:layout_marginLeft="20dp"
+                    android:layout_height="match_parent"
+
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignTop="@+id/spinnerLayout"
+                    android:layout_alignBottom="@+id/spinnerLayout"
+
+                    android:layout_marginLeft="10dp"
+
+
                     android:text="+"
                     android:textColor="#ffffff"
-                    android:textSize="30sp"
-                    android:layout_toRightOf="@id/brandSpinner" />
+                    android:textSize="60dp"
+
+                />
+
             </RelativeLayout>
 
+            <!-- rest of the form BELOW BRAND + MODEL -->
             <LinearLayout
                 android:id="@+id/addedFilterRecordsLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_below="@id/brand_model_layout"
                 android:orientation="vertical"
-                android:layout_below="@id/brand_model_layout"/>
-            <RelativeLayout
-                android:id="@+id/price_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/addedFilterRecordsLayout"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="Cena"
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <EditText
-                        android:id="@+id/min_price_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Od"/>
-                    <EditText
-                        android:id="@+id/max_price_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Do"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/engine_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/price_layout"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="Pojemność silnika"
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <EditText
-                        android:id="@+id/min_engine_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Od"/>
-                    <EditText
-                        android:id="@+id/max_engine_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Do"/>
-                </LinearLayout>
-            </RelativeLayout>
+
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"/>
+
             <RelativeLayout
                 android:id="@+id/hp_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/engine_layout"
+                android:layout_below="@id/addedFilterRecordsLayout"
+
                 android:padding="10dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="Moc silnika"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:text="Moc silnika"
+                        android:textSize="20sp" />
+
                     <EditText
                         android:id="@+id/min_hp_filter"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:hint="Od"/>
+                        android:layout_weight="1"
+                        android:hint="Od" />
+
                     <EditText
                         android:id="@+id/max_hp_filter"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:hint="Do"/>
+                        android:layout_weight="1"
+                        android:hint="Do" />
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
-                android:id="@+id/mileage_layout"
+                android:id="@+id/engine_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/hp_layout"
                 android:padding="10dp">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="match_parent"
-                        android:text="Przebieg"
+                        android:layout_weight="1"
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:text="Pojemność silnika"
+                        android:textSize="20sp" />
+
                     <EditText
-                        android:id="@+id/min_mileage_filter"
+                        android:id="@+id/min_engine_filter"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:hint="Od"/>
+                        android:layout_weight="1"
+                        android:hint="Od" />
+
                     <EditText
-                        android:id="@+id/max_mileage_filter"
+                        android:id="@+id/max_engine_filter"
                         android:layout_width="0dp"
-                        android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:hint="Do"/>
+                        android:layout_weight="1"
+                        android:hint="Do" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/automated_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/engine_layout"
+
+                android:padding="10dp">
+
+                <CheckBox
+                    android:id="@+id/automated_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Automatyczna skrzynia biegów"
+                    android:inputType="text" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/fuel_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/automated_layout"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/fuel_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Benzyna"
+                        android:inputType="text" />
+
+                    <CheckBox
+                        android:id="@+id/diesel_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Diesel"
+                        android:inputType="text" />
+
+                    <CheckBox
+                        android:id="@+id/gas_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Gaz"
+                        android:inputType="text" />
                 </LinearLayout>
             </RelativeLayout>
 
@@ -188,141 +291,194 @@
                 android:id="@+id/year_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/mileage_layout"
-                android:padding="10dp"
-                android:background="#11ffffff">
+                android:layout_below="@id/fuel_layout"
+                android:background="#11ffffff"
+                android:padding="10dp">
+
                 <Spinner
                     android:id="@+id/year_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:prompt="@string/year_spinner_hint"/>
+                    android:prompt="@string/year_spinner_hint" />
             </RelativeLayout>
 
-
-            <RelativeLayout
-                android:id="@+id/color_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/year_layout"
-                android:padding="10dp">
-                <EditText
-                    android:id="@+id/color_filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Kolor"
-                    android:inputType="text"/>
-            </RelativeLayout>
-            <RelativeLayout
-            android:id="@+id/damaged_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/color_layout"
-            android:padding="10dp">
-            <CheckBox
-                android:id="@+id/damaged_filter"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Uszkodzony"
-                android:inputType="text"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/automated_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/damaged_layout"
-                android:padding="10dp">
-                <CheckBox
-                    android:id="@+id/automated_filter"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Automatyczna skrzynia biegów"
-                    android:inputType="text"/>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/fuel_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/automated_layout"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <CheckBox
-                        android:id="@+id/fuel_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Benzyna"
-                        android:inputType="text"/>
-                    <CheckBox
-                        android:id="@+id/diesel_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Diesel"
-                        android:inputType="text"/>
-                    <CheckBox
-                        android:id="@+id/gas_filter"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"
-                        android:hint="Gaz"
-                        android:inputType="text"/>
-                </LinearLayout>
-            </RelativeLayout>
             <RelativeLayout
                 android:id="@+id/country_from_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/fuel_layout"
+                android:layout_below="@id/year_layout"
                 android:padding="10dp">
+
                 <EditText
                     android:id="@+id/country_from_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Kraj pochodzenia"
-                    android:inputType="text"/>
+                    android:inputType="text" />
             </RelativeLayout>
+
             <RelativeLayout
-                android:id="@+id/region_layout"
+                android:id="@+id/mileage_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/country_from_layout"
                 android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|left"
+                        android:text="Przebieg"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/min_mileage_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Od" />
+
+                    <EditText
+                        android:id="@+id/max_mileage_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Do" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/damaged_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/mileage_layout"
+                android:padding="10dp">
+
+                <CheckBox
+                    android:id="@+id/damaged_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Uszkodzony"
+                    android:inputType="text" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/color_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/damaged_layout"
+                android:padding="10dp">
+
+                <EditText
+                    android:id="@+id/color_filter"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Kolor"
+                    android:inputType="text" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/price_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/color_layout"
+                android:padding="10dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|left"
+                        android:text="Cena"
+                        android:textSize="20sp" />
+
+                    <EditText
+                        android:id="@+id/min_price_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Od" />
+
+                    <EditText
+                        android:id="@+id/max_price_filter"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="Do" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/region_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/price_layout"
+                android:padding="10dp">
+
                 <EditText
                     android:id="@+id/region_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Województwo"
-                    android:inputType="text"/>
+                    android:inputType="text" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/city_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/region_layout"
                 android:padding="10dp">
+
                 <EditText
                     android:id="@+id/city_filter"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Miasto"
-                    android:inputType="text"/>
+                    android:inputType="text" />
             </RelativeLayout>
         </RelativeLayout>
 
     </android.support.v4.widget.NestedScrollView>
 
-    <Button
-        android:id="@+id/searchButton"
+    <!-- form submit button BELOW FORM -->
+    <RelativeLayout
+        android:id="@+id/layoutBottom"
+
+        android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Szukaj"
-        android:textAllCaps="false"
-        android:textColor="#ffffff"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+        android:background="@drawable/gradient_main"
+
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="56dp"
+        >
+    <Button
+        android:id="@+id/searchButton"
+        style="@style/orange_button"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="Szukaj"
+        android:textAllCaps="true"
+        android:textColor="#ffffff"
+        android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
