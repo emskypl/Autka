@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.autka.R;
 import android.view.LayoutInflater;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -57,7 +60,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //kroko
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
+
         setContentView(R.layout.activity_main);
+
+
 
         //filter values
         brandSpinner = (Spinner) findViewById(R.id.brandSpinner);
