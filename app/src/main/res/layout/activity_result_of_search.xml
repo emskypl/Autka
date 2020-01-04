@@ -6,15 +6,34 @@
     android:layout_height="match_parent"
     tools:context=".view.ResultOfSearchActivity">
 <!-- TODO (4) Bottom navigation and side menu -->
+
+    <RelativeLayout
+
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+
+        android:background="@drawable/gradient_main"
+
+        android:layout_above="@id/listLayout"
+        />
+
     <LinearLayout
+
+        android:id="@+id/listLayout"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+
+        android:layout_marginTop="24dp"
+        >
     <ListView
         android:id="@+id/list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        android:paddingBottom="24dp"/>
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

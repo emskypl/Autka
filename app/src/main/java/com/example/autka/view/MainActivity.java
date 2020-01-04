@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //kroko
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
+
 
         setContentView(R.layout.activity_main);
 
@@ -149,7 +147,12 @@ public class MainActivity extends AppCompatActivity {
         brandsAdapter = brands.getBrandsList();
         brandSpinner.setAdapter(brandsAdapter);
         //years
-        ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
+
+        //krokoEdit
+        ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(this, R.layout.custom_spinner);
+        year_filter_adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
+
+
         year_filter_adapter.add("Wszystkie roczniki");
         for(int i=Calendar.getInstance().get(Calendar.YEAR);i > 1901 ;i--){
             year_filter_adapter.add(Integer.toString(i));

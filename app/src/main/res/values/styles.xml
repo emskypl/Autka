@@ -1,20 +1,23 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-        <item name="android:fontFamily">@font/ralewayl</item>
-        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
-    </style>
-    <style name="mySpinnerItemStyle" parent="@android:style/Widget.Holo.DropDownItem.Spinner">
-        <item name="android:textColor">@color/my_spinner_text_color</item>
-    </style>
-    <style name="big_spinner_style">
 
+        <item name="android:fontFamily">roboto_black</item>
+
+<!--        <item name="android:spinnerStyle">@style/mySpinnerItemStyle</item>-->
+<!--        <item name="android:spinnerItemStyle">@style/mySpinnerItemStyle</item>-->
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+<!--        <item name="android:dropDownItemStyle">@style/mySpinnerItemStyle</item>-->
+
+    </style>
+
+    <style name="big_spinner_style">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
 
@@ -22,12 +25,16 @@
         <item name="android:paddingRight">4dp</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
-        <item name="android:textColor">#ffffff</item>
-        <item name="android:background">@drawable/orange_template</item>
-        <item name="android:popupBackground">@color/colorAccent</item>
 
         <item name="android:elevation">4dp</item>
 
+        <item name="android:background">@drawable/orange_template</item>
+        <item name="android:popupBackground">@color/colorAccent</item>
+    </style>
+
+    <style name="mySpinnerItemStyle"    parent="@android:style/Widget.Holo.DropDownItem.Spinner">
+        <item name="android:textColor">@color/my_spinner_text_color</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
     <style name="orange_button">
