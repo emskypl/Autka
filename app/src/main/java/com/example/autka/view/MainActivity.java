@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CarsModels models = new CarsModels();
-                ArrayAdapter<String> modelsAdapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> modelsAdapter = new ArrayAdapter<>(view.getContext(),android.R.layout.simple_spinner_dropdown_item);
                 models.getMarks(brandSpinner.getSelectedItem().toString(), modelsAdapter);
                 modelsAdapter = models.getModelsList();
                 modelSpinner.setAdapter(modelsAdapter);
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         brandsAdapter = brands.getBrandsList();
         brandSpinner.setAdapter(brandsAdapter);
         //years
-        ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
         year_filter_adapter.add("Wszystkie roczniki");
         for(int i=Calendar.getInstance().get(Calendar.YEAR);i > 1901 ;i--){
             year_filter_adapter.add(Integer.toString(i));
