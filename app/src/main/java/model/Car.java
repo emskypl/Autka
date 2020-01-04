@@ -2,10 +2,9 @@ package model;
 
 public class Car {
 
-    private String image_url;
+
     private String brand;
     private String model;
-    private Double price;
     private String engine;
     private Integer year;
     private Integer hp;
@@ -15,8 +14,9 @@ public class Car {
     private Boolean automated;
     private Boolean fuel;
     private String country_from;
-    private String post_id;
+    private Double price;
     private String url;
+    private String image_url;
     private String region;
     private String city;
     private String description;
@@ -26,7 +26,7 @@ public class Car {
     }
 
     public Car(String image_url,String brand, String model, Double price, String engine, Integer year, Integer hp, Integer mileage, String color,
-               Boolean damaged, Boolean automated, Boolean fuel, String country_from, String post_id, String url,
+               Boolean damaged, Boolean automated, Boolean fuel, String country_from, String url,
                String region, String city, String description, String created_at) {
         this.image_url = image_url;
         this.brand = brand;
@@ -41,7 +41,6 @@ public class Car {
         this.automated = automated;
         this.fuel = fuel;
         this.country_from = country_from;
-        this.post_id = post_id;
         this.url = url;
         this.region = region;
         this.city = city;
@@ -134,14 +133,6 @@ public class Car {
         this.country_from = country_from;
     }
 
-    public String getPost_id() {
-        return post_id;
-    }
-
-    public void setPost_id(String post_id) {
-        this.post_id = post_id;
-    }
-
     public String getUrl() {
         return url;
     }
@@ -206,7 +197,6 @@ public class Car {
                 ", automated=" + automated +
                 ", fuel=" + fuel +
                 ", country_from='" + country_from + '\'' +
-                ", post_id='" + post_id + '\'' +
                 ", url='" + url + '\'' +
                 ", region='" + region + '\'' +
                 ", city='" + city + '\'' +

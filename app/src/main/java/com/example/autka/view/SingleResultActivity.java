@@ -64,15 +64,31 @@ public class SingleResultActivity extends AppCompatActivity {
     private void init() {
 
         Bundle extras = getIntent().getExtras();
-        Picasso.get().load(extras.getString("image_url")).resize(1000,800).into(image);
+        try{
+            Picasso.get().load(extras.getString("image_url")).resize(1000,800).into(image, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() { }
+
+                @Override
+                public void onError(Exception e) { image.setImageResource(R.drawable.audi_gt); }
+            });
+        }catch(Exception ex){
+            Log.d(TAG + "Picasso exception: ", ex.getMessage());
+        }
+
         created_at.setText(extras.getString("created_at"));
         url.setText(extras.getString("url"));
         if (!url.getText().toString().startsWith("http://") && !url.getText().toString().startsWith("https://"))
             url.setText("http://" + url);
+
         boolean isAllegro = url.getText().toString().contains("allegro");
         boolean isOtomoto = url.getText().toString().contains("otomoto");
+        boolean isOlx = url.getText().toString().contains("olx");
+
         if(isAllegro){ Picasso.get().load(R.drawable.allegrologo).into(serwisLogo); }
         if(isOtomoto){ Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo); }
+        if(isOlx) { Picasso.get().load(R.drawable.olxlogo).into(serwisLogo);}
+
         price.setText(extras.getString("price"));
         brand.setText(extras.getString("brand"));
         model.setText(extras.getString("model"));

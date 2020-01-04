@@ -33,8 +33,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ResultOfSearchActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultOfSearchActivity";
-    private static final String BASE_URL = "http://35.242.198.46/elasticsearch/posts/car/";
-    private static final String ELASTIC_PASSWORD = "jMBN8LfUeZKo";
+    private static final String BASE_URL = "http://34.89.133.205/elasticsearch/";
+    private static final String ELASTIC_PASSWORD = "ALRE63oHnS34";
 
     private ArrayList<Car> mCars = new ArrayList<Car>();
     private String searchString = "";
@@ -87,8 +87,11 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                     Log.e(TAG, "onResponse: hits" + hitsList);
 
                     for (int i = 0; i < hitsList.getCarIndex().size(); i++) {
-                        Log.d(TAG, "onResponse: hit: " + hitsList.getCarIndex().get(i).getCar().toString());
-                        mCars.add(hitsList.getCarIndex().get(i).getCar());
+                        if(hitsList.getCarIndex().get(i).getCar().getBrand() != null){
+
+                            Log.d(TAG, "onResponse: hit: " + hitsList.getCarIndex().get(i).getCar().toString());
+                            mCars.add(hitsList.getCarIndex().get(i).getCar());
+                        }
                     }
                     Log.d(TAG, "onResponse: size" + mCars.size());
                     FancyToast.makeText(getApplicationContext(), "Znaleziono " + mCars.size() + " ofert", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
@@ -160,15 +163,14 @@ public class ResultOfSearchActivity extends AppCompatActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
-
-            view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_record, null);
-            TextView brandAndModel = (TextView) view.findViewById(R.id.listview_item_title);
-            TextView price = (TextView) view.findViewById(R.id.listview_item_price);
-            TextView year = (TextView) view.findViewById(R.id.listview_item_year);
-            final ImageView imageView = (ImageView) view.findViewById(R.id.listview_item_image);
-            ImageView serwisLogo = (ImageView) view.findViewById(R.id.serwislogo_item_image);
-            brandAndModel.setText(mCars.get(i).getBrand() + " " + mCars.get(i).getModel());
             try {
+                view = LayoutInflater.from(getApplicationContext()).inflate(R.layout.listview_record, null);
+                TextView brandAndModel = (TextView) view.findViewById(R.id.listview_item_title);
+                TextView price = (TextView) view.findViewById(R.id.listview_item_price);
+                TextView year = (TextView) view.findViewById(R.id.listview_item_year);
+                final ImageView imageView = (ImageView) view.findViewById(R.id.listview_item_image);
+                ImageView serwisLogo = (ImageView) view.findViewById(R.id.serwislogo_item_image);
+                brandAndModel.setText(mCars.get(i).getBrand() + " " + mCars.get(i).getModel());
                 price.setText(mCars.get(i).getPrice().toString() + " zł");
                 year.setText(mCars.get(i).getYear().toString());
                 Picasso.get().load(mCars.get(i).getImage_url()).resize(300, 200).into(imageView, new com.squareup.picasso.Callback() {
@@ -181,8 +183,18 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 boolean isAllegro = mCars.get(i).getUrl().contains("allegro");
                 boolean isOtomoto = mCars.get(i).getUrl().contains("otomoto");
 
-                if (isAllegro) { Picasso.get().load(R.drawable.allegrologo).into(serwisLogo); }
-                if (isOtomoto) { Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo); }
+                if (isAllegro)
+                {
+                    Picasso.get().load(R.drawable.allegrologo).into(serwisLogo);
+                }
+                else if (isOtomoto)
+                {
+                    Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo);
+                }
+                else
+                {
+                    serwisLogo.setImageResource(R.drawable.androidicon);
+                }
             } catch (Exception e) { }
             return view;
         }
