@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         //brands
         CarsBrands brands = new CarsBrands();
         ArrayAdapter<String> brandsAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item);
+        brandsAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_orange);
         brands.brandsToArray(brandsAdapter);
         brandsAdapter = brands.getBrandsList();
         brandSpinner.setAdapter(brandsAdapter);
