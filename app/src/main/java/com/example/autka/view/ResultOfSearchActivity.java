@@ -33,7 +33,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ResultOfSearchActivity extends AppCompatActivity {
 
     private static final String TAG = "ResultOfSearchActivity";
-    private static final String BASE_URL = "http://34.89.133.205/elasticsearch/";
+    private static final String BASE_URL = "http://34.89.133.205/elasticsearch/auta/";
     private static final String ELASTIC_PASSWORD = "ALRE63oHnS34";
 
     private ArrayList<Car> mCars = new ArrayList<Car>();
