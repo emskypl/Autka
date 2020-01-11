@@ -13,22 +13,61 @@
 
     android:background="@drawable/gradient_main"
 
-    tools:context=".view.WelcomeActivity">
+    tools:context=".view.WelcomeActivity"
+    >
+    <LinearLayout
+        android:id="@+id/logo_napis"
 
-    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+
+        android:orientation="vertical"
+
+        android:layout_marginBottom="20dp"
+        >
+    <RelativeLayout
         android:id="@+id/logo"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:minHeight="250dp"
+        >
+
+        <android.support.v7.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+
+            android:src="@drawable/logo" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/napis"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        >
+    <android.support.v7.widget.AppCompatImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
         android:minWidth="250dp"
+        android:minHeight="35dp"
 
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
 
-        android:src="@drawable/logo"
+        android:src="@drawable/napis"
+
+
         />
+    </RelativeLayout>
+</LinearLayout>
 
     <ProgressBar
         android:id="@+id/splashProgress"
@@ -39,10 +78,10 @@
 
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/logo"
+        android:layout_below="@+id/logo_napis"
 
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"/>
+        android:paddingTop="35dp"/>
 
 </RelativeLayout>
