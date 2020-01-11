@@ -14,9 +14,9 @@ public class Car {
     private Boolean automated;
     private Boolean fuel;
     private String country_from;
-    private Double price;
+    private String price;
     private String url;
-    private String image_url;
+    private String images;
     private String region;
     private String city;
     private String description;
@@ -25,10 +25,10 @@ public class Car {
     public Car() {
     }
 
-    public Car(String image_url,String brand, String model, Double price, String engine, Integer year, Integer hp, Integer mileage, String color,
+    public Car(String images,String brand, String model, String price, String engine, Integer year, Integer hp, Integer mileage, String color,
                Boolean damaged, Boolean automated, Boolean fuel, String country_from, String url,
                String region, String city, String description, String created_at) {
-        this.image_url = image_url;
+        this.images = images;
         this.brand = brand;
         this.model = model;
         this.price = price;
@@ -49,9 +49,9 @@ public class Car {
     }
 
 
-    public String getImage_url() { return image_url; }
+    public String getImage_url() { return images; }
 
-    public void setImage_url(String image_url) { this.image_url = image_url; }
+    public void setImage_url(String images) { this.images = images; }
 
     public String getBrand() {
         return brand;
@@ -173,9 +173,9 @@ public class Car {
         this.created_at = created_at;
     }
 
-    public Double getPrice() { return price; }
+    public String getPrice() { return price; }
 
-    public void setPrice(Double price) { this.price = price; }
+    public void setPrice(String price) { this.price = price; }
 
     public Integer getMileage() { return mileage; }
 
@@ -184,7 +184,7 @@ public class Car {
     @Override
     public String toString() {
         return "Car{" +
-                "image_url=" + image_url +'\'' +
+                "image_url=" + images +'\'' +
                 "brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", price=" + price + '\'' +

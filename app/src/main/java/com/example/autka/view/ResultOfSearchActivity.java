@@ -70,7 +70,8 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         ElasticSearchApi searchAPI = retrofit.create(ElasticSearchApi.class);
         HashMap<String, String> headerMap = new HashMap<String, String>();
         headerMap.put("Authorization", Credentials.basic("user", ELASTIC_PASSWORD));
-        Call<HitsObject> call = searchAPI.search(headerMap, "OR", searchString);
+        Call<HitsObject> call = searchAPI.search(headerMap, "OR", searchString);//"{\"brand\":\"Audi\",\"model\":\"A4\"}");
+
         call.enqueue(new Callback<HitsObject>() {
             @Override
             public void onResponse(Call<HitsObject> call, Response<HitsObject> response) {
@@ -122,7 +123,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.d(TAG, "onItemClick: item id" + id);
                 Intent toSingleResult = new Intent(getApplicationContext(), SingleResultActivity.class);
-                toSingleResult.putExtra("image_url", mCars.get(position).getImage_url());
+                toSingleResult.putExtra("images", mCars.get(position).getImage_url());
                 toSingleResult.putExtra("created_at", mCars.get(position).getCreated_at());
                 toSingleResult.putExtra("url", mCars.get(position).getUrl());
                 toSingleResult.putExtra("price", mCars.get(position).getPrice());
@@ -193,7 +194,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    serwisLogo.setImageResource(R.drawable.androidicon);
+                    //serwisLogo.setImageResource(R.drawable.androidicon);
                 }
             } catch (Exception e) { }
             return view;

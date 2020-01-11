@@ -65,7 +65,7 @@ public class SingleResultActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         try{
-            Picasso.get().load(extras.getString("image_url")).resize(1000,800).into(image, new com.squareup.picasso.Callback() {
+            Picasso.get().load(extras.getString("images")).resize(1000,800).into(image, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() { }
 
@@ -73,7 +73,7 @@ public class SingleResultActivity extends AppCompatActivity {
                 public void onError(Exception e) { image.setImageResource(R.drawable.audi_gt); }
             });
         }catch(Exception ex){
-            Log.d(TAG + "Picasso exception: ", ex.getMessage());
+            Log.d(TAG , ex.getMessage());
         }
 
         created_at.setText(extras.getString("created_at"));
