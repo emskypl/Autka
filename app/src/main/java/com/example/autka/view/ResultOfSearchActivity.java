@@ -304,7 +304,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 brandAndModel.setText(mCars.get(i).getBrand() + " " + mCars.get(i).getModel());
                 price.setText(mCars.get(i).getPrice().toString() + " zł");
                 year.setText(mCars.get(i).getYear().toString());
-                Picasso.get().load(mCars.get(i).getImage_url()).resize(300, 200).into(imageView, new com.squareup.picasso.Callback() {
+                Picasso.get().load(mCars.get(i).getImage_url()).fit().centerCrop().into(imageView, new com.squareup.picasso.Callback() {
                     @Override
                     public void onSuccess() { }
 
