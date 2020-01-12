@@ -2,6 +2,7 @@ package com.example.autka.view;
 
 import android.content.Intent;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,10 +46,28 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     private static final String ELASTIC_PASSWORD = "ALRE63oHnS34";
 
     private ArrayList<Car> mCars = new ArrayList<Car>();
-    private String searchString = "";
     private ImageButton nextPageButton;
     private ImageButton previousPageButton;
     private ListView listCars;
+
+    private String [] brands;
+    private String [] models;
+    private String minHp;
+    private String maxHp;
+    private String minEngine;
+    private String maxEngine;
+    private String automated;
+    private String fuel;
+    private String year;
+    private String country;
+    private String minMileage;
+    private String maxMileage;
+    private String damaged;
+    private String color;
+    private String minPrice;
+    private String maxPrice;
+    private String region;
+    private String city;
 
     int x = 0;
     @Override
@@ -64,7 +83,6 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         nextPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 x = x + 20;
                 getCarsFromServer(x);
             }
@@ -82,15 +100,10 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     }
 
     private void getCarsFromServer(int x) {
-        Bundle extras = getIntent().getExtras();
         listCars.setAdapter(null);
         mCars.clear();
 
-        if(x > 0){
-            previousPageButton.setVisibility(View.VISIBLE);
-        }
 
-        Log.d(TAG, "getCarsFromServer: search_string:" + searchString);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
@@ -105,11 +118,8 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         headerMap.put("Accept","application/json");
         headerMap.put("Connection", "close");
 
-        String json = "{\"size\": 20,\"from\":" + x + ",\"query\": {\"bool\": {\"must\": [ {\"range\": {\"price\": {\"gte\":"+ extras.getString("minPrice") + ",\"lte\": " + extras.getString("maxPrice") + "} }}, {\"range\": {\"hp\": {\"gte\": 100,\"lte\": 300 } }}, {\"match\": {\"automated\": \"1\"}}, {\"match\": {\"countryFrom\": \"polska\"}}, {\"match\": {\"damaged\": \"0\"}}] } } }";
-        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), json);
-
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), generateJsonBodyString());
         Call<HitsObject> call = searchAPI.search1(headerMap, body );//);
-
         call.enqueue(new Callback<HitsObject>() {
             @Override
             public void onResponse(Call<HitsObject> call, Response<HitsObject> response) {
@@ -133,7 +143,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                         }
                     }
                     Log.d(TAG, "onResponse: size" + mCars.size());
-                    FancyToast.makeText(getApplicationContext(), "Znaleziono " + mCars.size() + " ofert", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+                    //FancyToast.makeText(getApplicationContext(), "Znaleziono " + " ofert", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
 
                 } catch (NullPointerException e) {
                     Log.e(TAG, "onResponse: NullPointerException" + e.getMessage());
@@ -153,7 +163,83 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 addListElements();
 
             }
-        }, 500);
+        }, 800);
+        if(x > 0){
+            previousPageButton.setVisibility(View.VISIBLE);
+        }else{
+            previousPageButton.setVisibility(View.INVISIBLE);
+        }
+        if(x > 0 && x < 20){
+            nextPageButton.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private String generateJsonBodyString() {
+        Bundle extras = getIntent().getExtras();
+        brands = extras.getStringArray("brands");
+        models = extras.getStringArray("models");
+        minHp = extras.getString("minHp");
+        maxHp = extras.getString("maxHp");
+        minEngine = extras.getString("minEngine");
+        maxEngine = extras.getString("maxEngine");
+        automated = extras.getString("automated");
+        fuel = extras.getString("fuel");
+        year = extras.getString("year");
+        country = extras.getString("country");
+        minMileage = extras.getString("minMileage");
+        maxMileage = extras.getString("maxMileage");
+        damaged = extras.getString("damaged");
+        color = extras.getString("color");
+        minPrice = extras.getString("minPrice");
+        maxPrice = extras.getString("maxPrice");
+        region = extras.getString("region");
+        city = extras.getString("city");
+
+        String json = "{" +
+                "\"size\": 20," +
+                "\"from\":" + x + "," +
+                "\"query\": {" +
+                "\"match_all\": {}" +
+                "}" +
+                "}";
+        if(brands == null
+            && models == null
+            && (minHp == null || minHp.isEmpty())
+            && (maxHp == null || maxHp.isEmpty())
+            && (minEngine == null || minEngine.isEmpty())
+            && (maxEngine == null || maxEngine.isEmpty())
+            && (automated == null || automated.isEmpty())
+            && (fuel == null || fuel.isEmpty())
+            //&& (year == "Wszystkie roczniki" || year.isEmpty())
+            && (country == null || country.isEmpty())
+            && (minMileage == null || minMileage.isEmpty())
+            && (maxMileage == null || maxMileage.isEmpty())
+            && (damaged == null || damaged.isEmpty())
+            && (color == null || color.isEmpty())
+            && (minPrice == null || minPrice.isEmpty())
+            && (maxPrice == null || maxPrice.isEmpty())
+            && (region == null || region.isEmpty())
+            && (city == null || city.isEmpty())) {
+            json = "{" +
+                    "\"size\": 30," +
+                    "\"from\":" + x + "," +
+                    "\"query\": {" +
+                    "\"match_all\": {}" +
+                    "}" +
+                    "}";
+        } else {
+            json = "{" +
+                    "\"size\": 30," +
+                    "\"from\":" + x + "," +
+                    "\"query\": {" +
+                    "\"match_all\": {}" +
+                    "}" +
+                    "}";
+        }
+
+
+
+        return json;
     }
 
 
@@ -238,7 +324,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    //serwisLogo.setImageResource(R.drawable.androidicon);
+                    serwisLogo.setImageResource(R.drawable.olxlogo);
                 }
             } catch (Exception e) { }
             return view;
