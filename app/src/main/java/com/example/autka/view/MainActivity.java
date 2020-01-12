@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText city_filter;
 
     //layout elements
-    private Button addRecordButton;
+    private ImageButton addRecordButton;
     private LinearLayout addedRecordsFilterLayout;
     private Button searchButton;
 
@@ -90,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         city_filter = (EditText) findViewById(R.id.city_filter);
 
         //layout elements
-        addRecordButton = (Button) findViewById(R.id.addRecordButton);
+        addRecordButton = (ImageButton) findViewById(R.id.addRecordButton);
         addedRecordsFilterLayout = (LinearLayout) findViewById(R.id.addedFilterRecordsLayout);
         searchButton = (Button) findViewById(R.id.searchButton);
 
