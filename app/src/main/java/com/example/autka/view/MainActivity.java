@@ -123,11 +123,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent toResultOfSearch = new Intent(getApplicationContext(),ResultOfSearchActivity.class);
-                searchStringCreate();
-                toResultOfSearch.putExtra("searchString", searchString);
-                toResultOfSearch.putExtra("minPrice", min_price_filter.getText());
-                toResultOfSearch.putExtra("maxPrice", max_price_filter.getText());
-                searchString = "";
+                toResultOfSearch.putExtra("brands", brandList.toArray());
+                toResultOfSearch.putExtra("models", modelList.toArray());
+                toResultOfSearch.putExtra("minHp", min_hp_filter.getText().toString());
+                toResultOfSearch.putExtra("maxHp", max_hp_filter.getText().toString());
+                toResultOfSearch.putExtra("minEngine", min_engine_filter.getText().toString());
+                toResultOfSearch.putExtra("maxEngine", max_engine_filter.getText().toString());
+                toResultOfSearch.putExtra("automated", automated_filter.getText().toString());
+                toResultOfSearch.putExtra("fuel", fuel_filter.getText().toString());
+                toResultOfSearch.putExtra("year", year_filter.getSelectedItem().toString());
+                toResultOfSearch.putExtra("country", color_filter.getText().toString());
+                toResultOfSearch.putExtra("minMileage", min_mileage_filter.getText().toString());
+                toResultOfSearch.putExtra("maxMileage", max_mileage_filter.getText().toString());
+                toResultOfSearch.putExtra("damaged", damaged_filter.getText().toString());
+                toResultOfSearch.putExtra("color", color_filter.getText().toString());
+                toResultOfSearch.putExtra("minPrice", min_price_filter.getText().toString());
+                toResultOfSearch.putExtra("maxPrice", max_price_filter.getText().toString());
+                toResultOfSearch.putExtra("region", region_filter.getText().toString());
+                toResultOfSearch.putExtra("city", city_filter.getText().toString());
                 startActivity(toResultOfSearch);
             }
         });
@@ -149,12 +162,9 @@ public class MainActivity extends AppCompatActivity {
         brands.brandsToArray(brandsAdapter);
         brandsAdapter = brands.getBrandsList();
         brandSpinner.setAdapter(brandsAdapter);
-        //years
 
-        //krokoEdit
         ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(this, R.layout.custom_spinner);
         year_filter_adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
-
 
         year_filter_adapter.add("Wszystkie roczniki");
         for(int i=Calendar.getInstance().get(Calendar.YEAR);i > 1901 ;i--){
@@ -162,81 +172,6 @@ public class MainActivity extends AppCompatActivity {
         }
         year_filter.setAdapter(year_filter_adapter);
     }
-
-    private void searchStringCreate(){
-
-        if(brandList.size()>0){
-            searchString = searchString + "(";
-            for(int i=0; i<brandList.size();i++){
-                if(modelList.get(i).contains("Wszystkie modele")){
-                    searchString = searchString + "((" + "brand:" + quote + brandList.get(i) + quote + "))";
-
-                }
-                searchString = searchString + "((" + "brand:" + quote + brandList.get(i) + quote + ")AND(" + "model:" + quote + modelList.get(i) + quote+ "))";
-                if(i<brandList.size()-1){
-                    searchString = searchString + "OR";
-                }
-                Log.d(TAG, "searchStringCreate: +brandAndModel: " + searchString );
-            }
-            searchString = searchString + ")";
-        }else{
-            searchString = "*";
-        }
-        if(!min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
-            //searchString = searchString + "AND(price:\u005c\u005c[\u005c\u005c" + quote + min_price_filter.getText() + quote + "+TO+" + quote + max_price_filter.getText() + quote + "\u005c\u005c]\u005c\u005c)";
-            searchString = searchString + "AND(price:((>=" + min_price_filter.getText() + ")AND(<=" + max_price_filter.getText() + ")))";
-            Log.d(TAG, "searchStringCreate: +price:" + searchString);
-        }else if(!min_price_filter.getText().toString().equals("") && max_price_filter.getText().toString().equals("")){
-            searchString = searchString + "AND(price:>=" + quote + min_price_filter.getText() + quote + ")";
-
-        }else if(min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
-            searchString = searchString + "AND(price:<=" + max_price_filter.getText() + ")";
-        }
-        if(!min_engine_filter.getText().toString().equals("") && !max_engine_filter.getText().toString().equals("")){
-            searchString = searchString + "AND(engine:(>=" + quote + min_price_filter.getText() + quote + "AND<=" + quote + max_price_filter.getText() + quote + "))";
-        }
-        if(!min_hp_filter.getText().toString().equals("")){
-            searchString = searchString + " hp:" + min_hp_filter.getText().toString();
-        }
-        if(!min_mileage_filter.getText().toString().equals("")){
-            searchString = searchString + " mileage:" + min_mileage_filter.getText().toString();
-        }
-        if(!year_filter.getSelectedItem().toString().equals("Wszystkie roczniki")){
-            searchString = searchString + " year:" + year_filter.getSelectedItem().toString();
-        }
-        if(!color_filter.getText().toString().equals("")){
-            searchString = searchString + " color:" + color_filter.getText().toString();
-        }
-        if(damaged_filter.isChecked()){
-            searchString = searchString + " damaged:true";
-        }
-        if(automated_filter.isChecked()){
-            searchString = searchString + " automated:true";
-        }
-        //TODO (elastic) Change mapping in elastic search
-        /*
-        if(!fuel_filter.isChecked()){
-            searchString = searchString + " fuel:false";
-        }
-        if(!diesel_filter.isChecked()){
-            searchString = searchString + " diesel:false";
-        }
-        if(!gas_filter.isChecked()){
-            searchString = searchString + " gas:false";
-        }
-        */
-        if(!country_from_filter.getText().toString().equals("")){
-            searchString = searchString + " country_from:" + country_from_filter.getText().toString();
-        }
-        if(!region_filter.getText().toString().equals("")){
-            searchString = searchString + " region:" + region_filter.getText().toString();
-        }
-        if(!city_filter.getText().toString().equals("")){
-            searchString = searchString + " city:" + city_filter.getText().toString();
-        }
-        Log.d(TAG, "searchStringCreate: searchString:" + searchString);
-    }
-
 
     private void onAddField(View v){
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -255,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onAddField: " + modelList.get(modelList.size()-1));
 
     }
+
     public void onDelete(View v) {
         TextView brandTextView = (TextView) v.findViewById(R.id.brandName);
         TextView modelTextView = (TextView) v.findViewById(R.id.modelName);
