@@ -99,12 +99,9 @@
 
                 <LinearLayout
                     android:id="@+id/spinnerLayout"
-
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-
-                    android:layout_toStartOf="@+id/addRecordButton"
                     >
 
                     <Spinner
@@ -124,21 +121,6 @@
                     android:spinnerMode="dropdown"
                     />
                 </LinearLayout>
-
-                <ImageButton
-                    android:id="@+id/addRecordButton"
-                    style="@style/orange_button"
-
-                    android:layout_width="70dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignTop="@+id/spinnerLayout"
-                    android:layout_alignBottom="@+id/spinnerLayout"
-                    android:layout_marginStart="10dp"
-
-                    android:src="@drawable/ic_add_test"
-                    android:scaleType="fitCenter"
-                    />
 
             </RelativeLayout>
 

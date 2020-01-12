@@ -62,11 +62,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
-
         setContentView(R.layout.activity_main);
-
-
 
         //filter values
         brandSpinner = (Spinner) findViewById(R.id.brandSpinner);
@@ -91,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
         city_filter = (EditText) findViewById(R.id.city_filter);
 
         //layout elements
-        addRecordButton = (ImageButton) findViewById(R.id.addRecordButton);
         addedRecordsFilterLayout = (LinearLayout) findViewById(R.id.addedFilterRecordsLayout);
         searchButton = (Button) findViewById(R.id.searchButton);
 
@@ -124,15 +119,19 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent toResultOfSearch = new Intent(getApplicationContext(),ResultOfSearchActivity.class);
-                toResultOfSearch.putExtra("brands", brandList.toArray());
-                toResultOfSearch.putExtra("models", modelList.toArray());
+                toResultOfSearch.putExtra("brand", brandSpinner.getSelectedItem().toString());
+                if(modelSpinner.getSelectedItem().toString() != "Wszystkie modele"){
+                    toResultOfSearch.putExtra("model", modelSpinner.getSelectedItem().toString());
+                }
                 toResultOfSearch.putExtra("minHp", min_hp_filter.getText().toString());
                 toResultOfSearch.putExtra("maxHp", max_hp_filter.getText().toString());
                 toResultOfSearch.putExtra("minEngine", min_engine_filter.getText().toString());
                 toResultOfSearch.putExtra("maxEngine", max_engine_filter.getText().toString());
                 toResultOfSearch.putExtra("automated", automated_filter.getText().toString());
                 toResultOfSearch.putExtra("fuel", fuel_filter.getText().toString());
-                toResultOfSearch.putExtra("year", year_filter.getSelectedItem().toString());
+                if(year_filter.getSelectedItem().toString() != "Wszystkie roczniki"){
+                    toResultOfSearch.putExtra("year", year_filter.getSelectedItem().toString());
+                }
                 toResultOfSearch.putExtra("country", color_filter.getText().toString());
                 toResultOfSearch.putExtra("minMileage", min_mileage_filter.getText().toString());
                 toResultOfSearch.putExtra("maxMileage", max_mileage_filter.getText().toString());
@@ -145,14 +144,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(toResultOfSearch);
             }
         });
-
-        addRecordButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                onAddField(v);
-            }
-        });
-
-
     }
 
     private void spinnersInit(){

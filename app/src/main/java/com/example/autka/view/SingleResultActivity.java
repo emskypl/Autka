@@ -1,8 +1,14 @@
 package com.example.autka.view;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.autka.R;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 
 public class SingleResultActivity extends AppCompatActivity {
 
@@ -36,6 +43,7 @@ public class SingleResultActivity extends AppCompatActivity {
     private TextView city;
     private TextView description;
     private ImageView serwisLogo;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,29 +74,35 @@ public class SingleResultActivity extends AppCompatActivity {
     private void init() {
 
         Bundle extras = getIntent().getExtras();
-        try{
+        try {
             Picasso.get().load(extras.getString("images")).resize(2000, 2000).onlyScaleDown().into(image, new com.squareup.picasso.Callback() {
                 @Override
-                public void onSuccess() { }
+                public void onSuccess() {
+                }
 
                 @Override
-                public void onError(Exception e) { image.setImageResource(R.drawable.audi_gt); }
+                public void onError(Exception e) {
+                    image.setImageResource(R.drawable.audi_gt);
+                }
             });
-        }catch(Exception ex){
-            Log.d(TAG , ex.getMessage());
+        } catch (Exception ex) {
+            Log.d(TAG, ex.getMessage());
         }
 
         // krokodyl: zamiast rotate musi być blur
-        try{
-            Picasso.get().load(extras.getString("images")).rotate(10).fit().centerCrop().into(image_bg, new com.squareup.picasso.Callback() {
+        try {
+            Picasso.get().load(extras.getString("images")).transform(new BlurTransformation(this)).transform(new BlurTransformation(this)).fit().centerCrop().into(image_bg, new com.squareup.picasso.Callback() {
                 @Override
-                public void onSuccess() { }
+                public void onSuccess() {
+                }
 
                 @Override
-                public void onError(Exception e) { image_bg.setImageResource(R.drawable.audi_gt); }
+                public void onError(Exception e) {
+                    image_bg.setImageResource(R.drawable.audi_gt);
+                }
             });
-        }catch(Exception ex){
-            Log.d(TAG , ex.getMessage());
+        } catch (Exception ex) {
+            Log.d(TAG, ex.getMessage());
         }
 
 
@@ -101,9 +115,15 @@ public class SingleResultActivity extends AppCompatActivity {
         boolean isOtomoto = url.getText().toString().contains("otomoto");
         boolean isOlx = url.getText().toString().contains("olx");
 
-        if(isAllegro){ Picasso.get().load(R.drawable.allegrologo).into(serwisLogo); }
-        if(isOtomoto){ Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo); }
-        if(isOlx) { Picasso.get().load(R.drawable.olxlogo).into(serwisLogo);}
+        if (isAllegro) {
+            Picasso.get().load(R.drawable.allegrologo).into(serwisLogo);
+        }
+        if (isOtomoto) {
+            Picasso.get().load(R.drawable.otomoto_logotyp).into(serwisLogo);
+        }
+        if (isOlx) {
+            Picasso.get().load(R.drawable.olxlogo).into(serwisLogo);
+        }
 
         price.setText(extras.getString("price"));
         brand.setText(extras.getString("brand"));
@@ -112,19 +132,19 @@ public class SingleResultActivity extends AppCompatActivity {
         hp.setText(String.valueOf(extras.getInt("hp")));
         mileage.setText(String.valueOf(extras.getInt("mileage")));
         color.setText(extras.getString("color"));
-        if(extras.getBoolean("damaged")){
+        if (extras.getBoolean("damaged")) {
             damaged.setText("Tak");
-        }else{
+        } else {
             damaged.setText("Nie");
         }
-        if(extras.getBoolean("automated")){
+        if (extras.getBoolean("automated")) {
             automated.setText("Tak");
-        }else{
+        } else {
             automated.setText("Nie");
         }
-        if(extras.getBoolean("fuel")){
+        if (extras.getBoolean("fuel")) {
             fuel.setText("Benzyna");
-        }else{
+        } else {
             fuel.setText("Gas");
         }
         countryFrom.setText(extras.getString("country_from"));
@@ -141,5 +161,46 @@ public class SingleResultActivity extends AppCompatActivity {
                 startActivity(browserIntent);
             }
         });
+    }
+
+    public class BlurTransformation implements Transformation {
+
+        RenderScript rs;
+
+        public BlurTransformation(Context context) {
+            super();
+            rs = RenderScript.create(context);
+        }
+
+        @Override
+        public Bitmap transform(Bitmap bitmap) {
+            // Create another bitmap that will hold the results of the filter.
+            Bitmap blurredBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+
+            // Allocate memory for Renderscript to work with
+            Allocation input = Allocation.createFromBitmap(rs, blurredBitmap, Allocation.MipmapControl.MIPMAP_FULL, Allocation.USAGE_SHARED);
+            Allocation output = Allocation.createTyped(rs, input.getType());
+
+            // Load up an instance of the specific script that we want to use.
+            ScriptIntrinsicBlur script = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
+            script.setInput(input);
+
+            // Set the blur radius
+            script.setRadius(25);
+
+            // Start the ScriptIntrinisicBlur
+            script.forEach(output);
+
+            // Copy the output to the blurred bitmap
+            output.copyTo(blurredBitmap);
+
+            bitmap.recycle();
+
+            return blurredBitmap;
+        }
+        @Override
+        public String key() {
+            return "blur";
+        }
     }
 }

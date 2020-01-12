@@ -50,8 +50,8 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     private ImageButton previousPageButton;
     private ListView listCars;
 
-    private String [] brands;
-    private String [] models;
+    private String brand;
+    private String model;
     private String minHp;
     private String maxHp;
     private String minEngine;
@@ -168,16 +168,16 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             previousPageButton.setVisibility(View.VISIBLE);
         }else{
             previousPageButton.setVisibility(View.INVISIBLE);
-        }
-        if(x > 0 && x < 20){
+        }        if(mCars.size() > 0 && mCars.size() <= 20){
             nextPageButton.setVisibility(View.INVISIBLE);
         }
+
     }
 
     private String generateJsonBodyString() {
         Bundle extras = getIntent().getExtras();
-        brands = extras.getStringArray("brands");
-        models = extras.getStringArray("models");
+        brand = extras.getString("brand");
+        model = extras.getString("model");
         minHp = extras.getString("minHp");
         maxHp = extras.getString("maxHp");
         minEngine = extras.getString("minEngine");
@@ -195,15 +195,10 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         region = extras.getString("region");
         city = extras.getString("city");
 
-        String json = "{" +
-                "\"size\": 20," +
-                "\"from\":" + x + "," +
-                "\"query\": {" +
-                "\"match_all\": {}" +
-                "}" +
-                "}";
-        if(brands == null
-            && models == null
+        String json;
+
+        if ((brand == null || brand.isEmpty())
+            && (model == null || model.isEmpty())
             && (minHp == null || minHp.isEmpty())
             && (maxHp == null || maxHp.isEmpty())
             && (minEngine == null || minEngine.isEmpty())
@@ -221,7 +216,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             && (region == null || region.isEmpty())
             && (city == null || city.isEmpty())) {
             json = "{" +
-                    "\"size\": 30," +
+                    "\"size\": 20," +
                     "\"from\":" + x + "," +
                     "\"query\": {" +
                     "\"match_all\": {}" +
@@ -229,10 +224,54 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                     "}";
         } else {
             json = "{" +
-                    "\"size\": 30," +
+                    "\"size\": 20," +
                     "\"from\":" + x + "," +
                     "\"query\": {" +
-                    "\"match_all\": {}" +
+                    "\"bool\": {" +
+                    "\"must\" : [" +
+                    "{\"match\": {" + "\"brand\" : " + "\"" + brand + "\" }}";
+            if (model != null) {
+                json += ",{\"match\": {" + "\"model\" : " + "\"" + model + "\" }}";
+            }
+            if (!minHp.isEmpty() || !maxHp.isEmpty()) {
+                json += ",{\"range\": {" +
+                        "\"hp\": {";
+                if (!minHp.isEmpty()) {
+                    json += "\"gte\":" + minHp;
+                }
+                if (!minHp.isEmpty() && !maxHp.isEmpty()) {
+                    json += ",";
+                }
+                if (!maxHp.isEmpty()) {
+                    json += "\"lte\":" + maxHp;
+                }
+            }
+            json += "}}}";
+            if (!minEngine.isEmpty() || !maxEngine.isEmpty()) {
+                json += ",{\"range\": {" +
+                        "\"engine\": {";
+                if (!minEngine.isEmpty()) {
+                    json += "\"gte\":" + minEngine;
+                }
+                if (!minEngine.isEmpty() && !maxEngine.isEmpty()) {
+                    json += ",";
+                }
+                if (!maxEngine.isEmpty()) {
+                    json += "\"lte\":" + maxEngine;
+                }
+            }
+            json += "}}}";
+
+
+//                                json += "{\"match\": {" + "\"automated\" : " + "\"" + automated + "\" }}" +
+//                                "{\"match\": {" + "\"fuel\" : " + "\"" + fuel + "\" }}," +
+//                                "{\"match\": {" + "\"country\" : " + "\"" + country + "\" }}," +
+//                                "{\"match\": {" + "\"damaged\" : " + "\"" + damaged + "\" }}," +
+//                                "{\"match\": {" + "\"color\" : " + "\"" + color + "\" }}," +
+//                                "{\"match\": {" + "\"region\" : " + "\"" + region + "\" }}," +
+//                                "{\"match\": {" + "\"city\" : " + "\"" + city + "\" }}" +
+                                json += "]" +
+                        "}" +
                     "}" +
                     "}";
         }
