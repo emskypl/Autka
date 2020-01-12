@@ -6,4 +6,5 @@
     <color name="colorAccent">#FDA736</color>
     <color name="accent_material_light">#444766</color>
     <color name="my_spinner_text_color">#FFF    </color>
+    <color name="colorWarning">#fd7236</color>
 </resources>
