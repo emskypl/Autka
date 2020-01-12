@@ -125,30 +125,20 @@
                     />
                 </LinearLayout>
 
-                <Button
+                <ImageButton
                     android:id="@+id/addRecordButton"
                     style="@style/orange_button"
 
                     android:layout_width="70dp"
                     android:layout_height="match_parent"
-
                     android:layout_alignParentEnd="true"
                     android:layout_alignTop="@+id/spinnerLayout"
                     android:layout_alignBottom="@+id/spinnerLayout"
+                    android:layout_marginStart="10dp"
 
-                    android:layout_marginLeft="10dp"
-
-
-                    android:text="+"
-                    android:textColor="#ffffff"
-                    android:textSize="60dp"
-                    android:textStyle="bold"
-
-                    android:shadowColor="#3000"
-                    android:shadowDx="2.5"
-                    android:shadowDy="6"
-                    android:shadowRadius="5.7"
-                />
+                    android:src="@drawable/ic_add_test"
+                    android:scaleType="fitCenter"
+                    />
 
             </RelativeLayout>
 

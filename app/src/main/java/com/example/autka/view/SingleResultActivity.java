@@ -18,6 +18,7 @@ public class SingleResultActivity extends AppCompatActivity {
     private static final String TAG = "SingleResultActivity";
 
     private ImageView image;
+    private ImageView image_bg;
     private TextView created_at;
     private TextView url;
     private TextView price;
@@ -41,6 +42,7 @@ public class SingleResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_single_result);
 
         image = findViewById(R.id.image_single_result);
+        image_bg = findViewById(R.id.image_single_result_bg);
         created_at = findViewById(R.id.created_at_single_result);
         url = findViewById(R.id.url_single_result);
         price = findViewById(R.id.price_single_result);
@@ -65,7 +67,7 @@ public class SingleResultActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         try{
-            Picasso.get().load(extras.getString("images")).fit().centerCrop().into(image, new com.squareup.picasso.Callback() {
+            Picasso.get().load(extras.getString("images")).resize(2000, 2000).onlyScaleDown().into(image, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() { }
 
@@ -75,6 +77,20 @@ public class SingleResultActivity extends AppCompatActivity {
         }catch(Exception ex){
             Log.d(TAG , ex.getMessage());
         }
+
+        // krokodyl: tło, popraw jak trzeba
+        try{
+            Picasso.get().load(extras.getString("images")).rotate(10).fit().centerCrop().into(image_bg, new com.squareup.picasso.Callback() {
+                @Override
+                public void onSuccess() { }
+
+                @Override
+                public void onError(Exception e) { image_bg.setImageResource(R.drawable.audi_gt); }
+            });
+        }catch(Exception ex){
+            Log.d(TAG , ex.getMessage());
+        }
+
 
         created_at.setText(extras.getString("created_at"));
         url.setText(extras.getString("url"));
