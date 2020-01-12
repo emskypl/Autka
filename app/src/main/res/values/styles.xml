@@ -1,41 +1,75 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
-        <item name="android:fontFamily">@font/ralewayl</item>
-        <item name="android:spinnerStyle">@style/big_spinner_style</item>
-        <item name="android:spinnerItemStyle">@style/big_spinner_style</item>
-        <item name="android:spinnerDropDownItemStyle">@style/big_spinner_style</item>
-        <item name="android:dropDownSpinnerStyle">@style/big_spinner_style</item>
+
+        <item name="android:fontFamily">roboto_black</item>
+
+<!--        <item name="android:spinnerStyle">@style/mySpinnerItemStyle</item>-->
+<!--        <item name="android:spinnerItemStyle">@style/mySpinnerItemStyle</item>-->
+        <item name="android:spinnerDropDownItemStyle">@style/mySpinnerItemStyle</item>
+<!--        <item name="android:dropDownItemStyle">@style/mySpinnerItemStyle</item>-->
 
     </style>
 
     <style name="big_spinner_style">
-        <item name="android:textColor">#ffffff</item>
+        <item name="android:layout_marginVertical">6dp</item>
+        <item name="android:layout_marginHorizontal">6dp</item>
+
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+
         <item name="android:paddingLeft">4dp</item>
         <item name="android:paddingRight">4dp</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
+
+        <item name="android:elevation">4dp</item>
+
         <item name="android:background">@drawable/orange_template</item>
         <item name="android:popupBackground">@color/colorAccent</item>
-        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="mySpinnerItemStyle">
+        <item name="android:textColor">@color/my_spinner_text_color</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:textAlignment">gravity</item>
+        <item name="android:gravity">center|left</item>
+        <item name="android:paddingStart">6dp</item>
+
+        <item name="android:shadowColor">#3000</item>
+        <item name="android:shadowDx">2.5</item>
+        <item name="android:shadowDy">6</item>
+        <item name="android:shadowRadius">5.7</item>
     </style>
 
     <style name="orange_button">
-        <item name="android:layout_marginBottom">4dp</item>
+        <item name="android:layout_marginVertical">6dp</item>
+        <item name="android:layout_marginHorizontal">6dp</item>
+
         <item name="android:stateListAnimator">@null</item>
         <item name="android:elevation">4dp</item>
         <item name="android:background">@drawable/orange_template</item>
     </style>
 
+    <style name="orange_button_round">
+        <item name="android:layout_marginVertical">6dp</item>
+        <item name="android:layout_marginHorizontal">6dp</item>
+
+        <item name="android:stateListAnimator">@null</item>
+        <item name="android:elevation">4dp</item>
+        <item name="android:background">@drawable/orange_template_round</item>
+    </style>
+
     <style name ="delete_button">
         <item name="android:background">#666</item>
     </style>
+
 </resources>

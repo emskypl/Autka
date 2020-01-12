@@ -5,16 +5,65 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".view.ResultOfSearchActivity">
-<!-- TODO (4) Bottom navigation and side menu -->
-    <LinearLayout
+
+    <RelativeLayout
+        android:id="@+id/statusBar"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/gradient_main"
+        android:layout_above="@id/listLayout"
+        />
+        <LinearLayout
+            android:id="@+id/listLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="24dp"
+            android:paddingHorizontal="4dp"
+            android:background="@drawable/gradient_background"
+            >
+        <ListView
+            android:id="@+id/list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="24dp"
+            android:paddingVertical="1dp"
+            />
+    </LinearLayout>
+<!--    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-    <ListView
-        android:id="@+id/list_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-    </LinearLayout>
+        android:layout_gravity="end|bottom"
+        android:src="@drawable/ic_launcher_background"
+        android:layout_margin="16dp"
+        app:layout_constraintTop_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="parent"/>-->
+    <ImageButton
+        android:id="@+id/nextPageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="DALEJ"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_forward"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+    />
+    <ImageButton
+        android:id="@+id/previousPageButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WSTECZ"
+        android:layout_margin="10dp"
+        android:src="@drawable/ic_back"
+        android:visibility="invisible"
+        android:textSize="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        />
 </android.support.constraint.ConstraintLayout>

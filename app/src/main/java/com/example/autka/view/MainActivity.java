@@ -61,9 +61,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        //kroko
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
-                WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS );
+
 
         setContentView(R.layout.activity_main);
 
@@ -127,6 +125,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent toResultOfSearch = new Intent(getApplicationContext(),ResultOfSearchActivity.class);
                 searchStringCreate();
                 toResultOfSearch.putExtra("searchString", searchString);
+                toResultOfSearch.putExtra("minPrice", min_price_filter.getText());
+                toResultOfSearch.putExtra("maxPrice", max_price_filter.getText());
                 searchString = "";
                 startActivity(toResultOfSearch);
             }
@@ -145,11 +145,17 @@ public class MainActivity extends AppCompatActivity {
         //brands
         CarsBrands brands = new CarsBrands();
         ArrayAdapter<String> brandsAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item);
+        brandsAdapter.setDropDownViewResource(R.layout.custom_spinner_dropdown_orange);
         brands.brandsToArray(brandsAdapter);
         brandsAdapter = brands.getBrandsList();
         brandSpinner.setAdapter(brandsAdapter);
         //years
-        ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item);
+
+        //krokoEdit
+        ArrayAdapter<String> year_filter_adapter = new ArrayAdapter<String>(this, R.layout.custom_spinner);
+        year_filter_adapter.setDropDownViewResource(R.layout.custom_spinner_dropdown);
+
+
         year_filter_adapter.add("Wszystkie roczniki");
         for(int i=Calendar.getInstance().get(Calendar.YEAR);i > 1901 ;i--){
             year_filter_adapter.add(Integer.toString(i));
@@ -162,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
         if(brandList.size()>0){
             searchString = searchString + "(";
             for(int i=0; i<brandList.size();i++){
+                if(modelList.get(i).contains("Wszystkie modele")){
+                    searchString = searchString + "((" + "brand:" + quote + brandList.get(i) + quote + "))";
+
+                }
                 searchString = searchString + "((" + "brand:" + quote + brandList.get(i) + quote + ")AND(" + "model:" + quote + modelList.get(i) + quote+ "))";
                 if(i<brandList.size()-1){
                     searchString = searchString + "OR";
@@ -172,14 +182,13 @@ public class MainActivity extends AppCompatActivity {
         }else{
             searchString = "*";
         }
-        // TODO (elastic) range in engine, hp, mileage
         if(!min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
-            // TODO extra (elastic) parse_exception, problem with []
             //searchString = searchString + "AND(price:\u005c\u005c[\u005c\u005c" + quote + min_price_filter.getText() + quote + "+TO+" + quote + max_price_filter.getText() + quote + "\u005c\u005c]\u005c\u005c)";
             searchString = searchString + "AND(price:((>=" + min_price_filter.getText() + ")AND(<=" + max_price_filter.getText() + ")))";
             Log.d(TAG, "searchStringCreate: +price:" + searchString);
         }else if(!min_price_filter.getText().toString().equals("") && max_price_filter.getText().toString().equals("")){
             searchString = searchString + "AND(price:>=" + quote + min_price_filter.getText() + quote + ")";
+
         }else if(min_price_filter.getText().toString().equals("") && !max_price_filter.getText().toString().equals("")){
             searchString = searchString + "AND(price:<=" + max_price_filter.getText() + ")";
         }

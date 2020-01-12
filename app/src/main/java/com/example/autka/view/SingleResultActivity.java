@@ -65,7 +65,7 @@ public class SingleResultActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         try{
-            Picasso.get().load(extras.getString("images")).resize(1000,800).into(image, new com.squareup.picasso.Callback() {
+            Picasso.get().load(extras.getString("images")).fit().centerCrop().into(image, new com.squareup.picasso.Callback() {
                 @Override
                 public void onSuccess() { }
 

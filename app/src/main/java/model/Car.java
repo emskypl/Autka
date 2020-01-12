@@ -25,6 +25,9 @@ public class Car {
     public Car() {
     }
 
+    public Car(String brand){
+        this.brand = brand;
+    }
     public Car(String images,String brand, String model, String price, String engine, Integer year, Integer hp, Integer mileage, String color,
                Boolean damaged, Boolean automated, Boolean fuel, String country_from, String url,
                String region, String city, String description, String created_at) {

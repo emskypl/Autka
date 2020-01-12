@@ -1,204 +1,165 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+
+        android:id="@+id/statusBar"
+
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+
+        android:background="@drawable/gradient_main"
+
+        android:layout_above="@id/scroll"
+        />
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:paddingHorizontal="4dp"
+        android:paddingTop="4dp"
+
+        android:layout_marginTop="24dp"
+
+        android:background="@drawable/gradient_background"
+        >
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+
+            android:paddingBottom="24dp"
+            >
             <RelativeLayout
                 android:id="@+id/images_layout_single_result"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+
+                android:layout_marginBottom="4dp"
+                >
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignTop="@+id/image_single_result"
+                    android:layout_alignBottom="@+id/image_single_result"
+                    android:text="Zdjęcie niedostępne"
+                    android:textAlignment="gravity"
+                    android:gravity="center"
+                    />
                 <ImageView
                     android:id="@+id/image_single_result"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+
+                    android:background="@drawable/border"
+                    />
+
+                <ImageView
+                    android:id="@+id/serwis_logo_single_result"
+
+                    android:src="@drawable/allegrologo"
+
+                    android:layout_height="30dp"
+                    android:layout_width="50dp"
+
+                    android:layout_alignEnd="@+id/image_single_result"
+                    android:layout_alignBottom="@+id/image_single_result"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginBottom="6dp"
+
+                    android:scaleType="fitEnd"
+                    />
             </RelativeLayout>
+
+
+            <LinearLayout
+                android:id="@+id/brand_and_model"
+                android:layout_below="@+id/images_layout_single_result"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_centerHorizontal="true"
+
+                android:layout_marginBottom="2dp"
+                >
+
+                <TextView
+                    android:id="@+id/brand_single_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Audi"
+                    android:gravity="end"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"/>
+
+                <TextView
+                    android:id="@+id/model_single_result"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:text="A7"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+
+                    android:paddingStart="2dp"
+                    android:paddingEnd="2dp"/>
+
+            </LinearLayout>
+
             <RelativeLayout
                 android:id="@+id/created_at_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/images_layout_single_result"
-                android:padding="2dp">
+                android:layout_below="@+id/brand_and_model"
+                android:padding="2dp"
+                android:layout_marginBottom="8dp"
+                >
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+
+                    android:layout_centerHorizontal="true"
+                    >
                     <TextView
-                        android:layout_width="0dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Aukcja utworzona: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="14sp"/>
+                        android:text="Aukcja z "
+                        android:gravity="center_vertical|end"
+                        android:textSize="14sp"
+                        android:textColor="#32334F"/>
                     <TextView
                         android:id="@+id/created_at_single_result"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="29.04.2019r"
-                        android:gravity="right"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/url_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/created_at_layout_single_result"
-                android:padding="2dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Link do aukcji: "
-                        android:gravity="center_vertical|left"
+                        android:text="29.04.2019r."
+                        android:gravity="start"
                         android:textSize="14sp"
-                        android:linksClickable="true"/>
-                    <ImageView
-                        android:id="@+id/serwis_logo_single_result"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="20dp"
-                        android:src="@drawable/allegrologo"
-                        android:scaleType="centerInside"/>
-                    <TextView
-                        android:id="@+id/url_single_result"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="http://allegro.pl/123890xyz23abc"
-                        android:gravity="right"
-                        android:textColor="#4286f4"
-                        android:textSize="14sp"/>
+                        android:textColor="#32334F"/>
                 </LinearLayout>
             </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/price_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/url_layout_single_result"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Cena: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/price_single_result"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="100000"
-                        android:gravity="right"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/brand_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/price_layout_single_result"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Marka: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/brand_single_result"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="match_parent"
-                        android:text="Audi"
-                        android:gravity="right"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/model_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/brand_layout_single_result"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Model: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/model_single_result"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="A7"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/engine_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_below="@+id/model_layout_single_result"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Pojemność sinika: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/engine_single_result"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="4.0"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/hp_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/engine_layout_single_result"
+                android:layout_below="@+id/created_at_layout_single_result"
                 android:padding="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -210,7 +171,9 @@
                         android:layout_weight="1"
                         android:text="Moc silnika: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/hp_single_result"
                         android:layout_width="0dp"
@@ -221,8 +184,9 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
-                android:id="@+id/mileage_layout_single_result"
+                android:id="@+id/engine_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_below="@+id/hp_layout_single_result"
@@ -235,78 +199,27 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Przebieg: "
+                        android:text="Pojemność sinika: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
-                        android:id="@+id/mileage_single_result"
+                        android:id="@+id/engine_single_result"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="right"
-                        android:text="15 000 km"
+                        android:text="4.0"
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/color_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/mileage_layout_single_result"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Kolor: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/color_single_result"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="Czarny"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </RelativeLayout>
-            <RelativeLayout
-                android:id="@+id/damaged_layout_single_result"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/color_layout_single_result"
-                android:padding="10dp">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:text="Uszkodzony: "
-                        android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
-                    <TextView
-                        android:id="@+id/damaged_single_result"
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:gravity="right"
-                        android:text="Nie"
-                        android:textSize="20sp"/>
-                </LinearLayout>
-            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/automated_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/damaged_layout_single_result"
+                android:layout_below="@+id/engine_layout_single_result"
                 android:padding="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -318,7 +231,9 @@
                         android:layout_weight="1"
                         android:text="Automatyczna skrzynia biegów: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/automated_single_result"
                         android:layout_width="0dp"
@@ -329,6 +244,7 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/fuel_layout_single_result"
                 android:layout_width="match_parent"
@@ -343,9 +259,11 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Rodzaj silnika: "
+                        android:text="Rodzaj paliwa: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/fuel_single_result"
                         android:layout_width="0dp"
@@ -356,8 +274,9 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
-                android:id="@+id/country_from_layout_single_result"
+                android:id="@+id/year_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/fuel_layout_single_result"
@@ -370,9 +289,41 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:text="Rocznik: "
+                        android:gravity="center_vertical|left"
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/year_single_result"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical|right"
+                        android:text="2006"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/country_from_layout_single_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/year_layout_single_result"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
                         android:text="Kraj pochodzenia: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/country_from_single_result"
                         android:layout_width="0dp"
@@ -383,11 +334,132 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/mileage_layout_single_result"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/country_from_layout_single_result"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Przebieg: "
+                        android:gravity="center_vertical|left"
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/mileage_single_result"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="15 000 km"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/damaged_layout_single_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/mileage_layout_single_result"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Uszkodzony: "
+                        android:gravity="center_vertical|left"
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/damaged_single_result"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:text="Nie"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/color_layout_single_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/damaged_layout_single_result"
+            android:padding="10dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:text="Kolor: "
+                    android:gravity="center_vertical|left"
+                    android:textSize="20sp"
+
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/color_single_result"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Czarny"
+                    android:textSize="20sp"/>
+            </LinearLayout>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/price_layout_single_result"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/color_layout_single_result"
+                android:padding="10dp">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:text="Cena:"
+                        android:gravity="center_vertical|left"
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
+                    <TextView
+                        android:id="@+id/price_single_result"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="match_parent"
+                        android:text="999 999"
+                        android:gravity="right"
+                        android:textSize="20sp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/region_layout_single_result"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/country_from_layout_single_result"
+                android:layout_below="@+id/price_layout_single_result"
                 android:padding="10dp">
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -399,7 +471,9 @@
                         android:layout_weight="1"
                         android:text="Województwo: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/region_single_result"
                         android:layout_width="0dp"
@@ -410,6 +484,7 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/city_layout_single_result"
                 android:layout_width="match_parent"
@@ -426,7 +501,9 @@
                         android:layout_weight="1"
                         android:text="Miasto: "
                         android:gravity="center_vertical|left"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/city_single_result"
                         android:layout_width="0dp"
@@ -437,6 +514,7 @@
                         android:textSize="20sp"/>
                 </LinearLayout>
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/description_layout_single_result"
                 android:layout_width="match_parent"
@@ -446,7 +524,9 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingBottom="80dp"
+                    >
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -454,17 +534,49 @@
                         android:text="Opis: "
                         android:gravity="center_vertical|left"
                         android:textSize="20sp"
-                        android:layout_marginBottom="10dp" />
+                        android:layout_marginBottom="10dp"
+                        android:textStyle="bold"/>
                     <TextView
                         android:id="@+id/description_single_result"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-
                         android:text="Super ekstra autko, polecam, śmiga jak szalone a nawet lepiej!!!"
-                        android:textSize="20sp"/>
+                        android:textSize="20sp"
+                        />
                 </LinearLayout>
+
             </RelativeLayout>
         </RelativeLayout>
+
     </android.support.v4.widget.NestedScrollView>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        >
+    <Button
+        android:id="@+id/url_single_result"
+
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+
+        style="@style/orange_button_round"
+
+        android:foreground="@drawable/ic_link_test"
+
+
+        android:textSize="0sp"
+        android:textColor="#0FFF"
+
+        >
+    </Button>
+    </RelativeLayout>
+
 </android.support.constraint.ConstraintLayout>

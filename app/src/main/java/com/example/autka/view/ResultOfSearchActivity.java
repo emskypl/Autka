@@ -10,8 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import com.example.autka.R;
 import com.shashank.sony.fancytoastlib.FancyToast;
@@ -19,16 +22,21 @@ import com.squareup.picasso.Picasso;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import controler.ElasticSearchApi;
 import model.Car;
 import model.HitsList;
 import model.HitsObject;
 import okhttp3.Credentials;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class ResultOfSearchActivity extends AppCompatActivity {
 
@@ -38,39 +46,69 @@ public class ResultOfSearchActivity extends AppCompatActivity {
 
     private ArrayList<Car> mCars = new ArrayList<Car>();
     private String searchString = "";
+    private ImageButton nextPageButton;
+    private ImageButton previousPageButton;
+    private ListView listCars;
 
+    int x = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_of_search);
         FancyToast.makeText(getApplicationContext(), "Szukam...", FancyToast.LENGTH_LONG, FancyToast.INFO, false).show();
-        getCarsFromServer();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                addListElements();
 
+        nextPageButton = (ImageButton) findViewById(R.id.nextPageButton);
+        previousPageButton = (ImageButton) findViewById(R.id.previousPageButton);
+        listCars = (ListView) findViewById(R.id.list_view);
+
+        nextPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                x = x + 20;
+                getCarsFromServer(x);
             }
-        }, 1000);
+        });
+
+        previousPageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                x = x - 20;
+                getCarsFromServer(x);
+            }
+        });
+
+        getCarsFromServer(x);
     }
 
-    private void getCarsFromServer() {
+    private void getCarsFromServer(int x) {
         Bundle extras = getIntent().getExtras();
+        listCars.setAdapter(null);
+        mCars.clear();
 
-        /*
-          GET by uri from elasticsearch
-        */
+        if(x > 0){
+            previousPageButton.setVisibility(View.VISIBLE);
+        }
 
-        searchString = extras.getString("searchString");
         Log.d(TAG, "getCarsFromServer: search_string:" + searchString);
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(ScalarsConverterFactory.create())
                 .build();
+
         ElasticSearchApi searchAPI = retrofit.create(ElasticSearchApi.class);
         HashMap<String, String> headerMap = new HashMap<String, String>();
         headerMap.put("Authorization", Credentials.basic("user", ELASTIC_PASSWORD));
-        Call<HitsObject> call = searchAPI.search(headerMap, "OR", searchString);//"{\"brand\":\"Audi\",\"model\":\"A4\"}");
+        headerMap.put("Content-Type","application/json");
+        headerMap.put("Cache-Control","no-cache");
+        headerMap.put("Accept","application/json");
+        headerMap.put("Connection", "close");
+
+        String json = "{\"size\": 20,\"from\":" + x + ",\"query\": {\"bool\": {\"must\": [ {\"range\": {\"price\": {\"gte\":"+ extras.getString("minPrice") + ",\"lte\": " + extras.getString("maxPrice") + "} }}, {\"range\": {\"hp\": {\"gte\": 100,\"lte\": 300 } }}, {\"match\": {\"automated\": \"1\"}}, {\"match\": {\"countryFrom\": \"polska\"}}, {\"match\": {\"damaged\": \"0\"}}] } } }";
+        RequestBody body = RequestBody.create(MediaType.parse("text/plain"), json);
+
+        Call<HitsObject> call = searchAPI.search1(headerMap, body );//);
 
         call.enqueue(new Callback<HitsObject>() {
             @Override
@@ -108,8 +146,14 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<HitsObject> call, Throwable t) { }
         });
-        Log.d(TAG, "onResponse: size after respone" + mCars.size());
-        searchString = "";
+        Log.d(TAG, "onResponse: size after response" + mCars.size());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                addListElements();
+
+            }
+        }, 500);
     }
 
 
