@@ -78,7 +78,7 @@ public class SingleResultActivity extends AppCompatActivity {
             Log.d(TAG , ex.getMessage());
         }
 
-        // krokodyl: tło, popraw jak trzeba
+        // krokodyl: zamiast rotate musi być blur
         try{
             Picasso.get().load(extras.getString("images")).rotate(10).fit().centerCrop().into(image_bg, new com.squareup.picasso.Callback() {
                 @Override

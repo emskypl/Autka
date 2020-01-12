@@ -79,7 +79,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
 
-            android:paddingBottom="112dp">
+            android:paddingBottom="100dp">
 
             <!-- model & brand INSIDE FORM CONTENT -->
             <RelativeLayout
