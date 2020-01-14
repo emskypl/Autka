@@ -36,10 +36,7 @@
             android:layout_height="match_parent"
             android:paddingVertical="1dp"
             />
-
-
         </RelativeLayout>
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -62,29 +59,25 @@
         android:src="@drawable/ic_arrow_left"
         android:scaleType="fitCenter"
 
-        android:visibility="visible"
+        android:visibility="invisible"
         />
 
-        <ImageButton
-
-            style="@style/orange_button_round"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-
-            android:layout_centerInParent="true"
-
-            android:src="@drawable/ic_menu_back_test"
-            android:scaleType="fitCenter"
-            >
-
-        </ImageButton>
+    <ImageButton
+        android:id="@+id/backToMainActivity"
+        style="@style/orange_button_round"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/ic_menu_back_test"
+        android:scaleType="fitCenter"
+        />
 
     <ImageButton
         android:id="@+id/nextPageButton"
         style="@style/orange_button"
         android:layout_width="64dp"
         android:layout_height="52dp"
-
+        android:visibility="invisible"
         android:layout_alignParentEnd="true"
 
         android:layout_marginHorizontal="20dp"

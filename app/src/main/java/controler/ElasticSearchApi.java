@@ -17,12 +17,10 @@ import retrofit2.http.Query;
 
 public interface ElasticSearchApi {
 
-    @GET("_search/")
+    @POST("_count")
     Call<HitsObject> search(
                 @HeaderMap Map<String, String> headers,
-                @Query("default_operator") String operator,
-                @Query("q") String query
-                //@Body String body
+                @Body RequestBody body
     );
 
     @POST("_search")

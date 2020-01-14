@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageButton addRecordButton;
     private LinearLayout addedRecordsFilterLayout;
     private Button searchButton;
+    private ImageButton clearButton;
 
     //elasticsearch
     String searchString = "";
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         min_price_filter = (EditText) findViewById(R.id.min_price_filter);
         max_price_filter = (EditText) findViewById(R.id.max_price_filter);
         min_engine_filter = (EditText) findViewById(R.id.min_engine_filter);
-        max_engine_filter = (EditText) findViewById(R.id.max_price_filter);
+        max_engine_filter = (EditText) findViewById(R.id.max_engine_filter);
         min_hp_filter = (EditText) findViewById(R.id.min_hp_filter);
         max_hp_filter = (EditText) findViewById(R.id.max_hp_filter);
         min_mileage_filter = (EditText) findViewById(R.id.min_mileage_filter);
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         country_from_filter = (EditText) findViewById(R.id.country_from_filter);
         region_filter = (EditText) findViewById(R.id.region_filter);
         city_filter = (EditText) findViewById(R.id.city_filter);
-
+        clearButton = (ImageButton) findViewById(R.id.clearButton);
         //layout elements
         addedRecordsFilterLayout = (LinearLayout) findViewById(R.id.addedFilterRecordsLayout);
         searchButton = (Button) findViewById(R.id.searchButton);
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 CarsModels models = new CarsModels();
-                ArrayAdapter<String> modelsAdapter = new ArrayAdapter<>(view.getContext(),android.R.layout.simple_spinner_dropdown_item);
+                ArrayAdapter<String> modelsAdapter = new ArrayAdapter<>(getApplicationContext(),android.R.layout.simple_spinner_dropdown_item);
                 models.getMarks(brandSpinner.getSelectedItem().toString(), modelsAdapter);
                 modelsAdapter = models.getModelsList();
                 modelSpinner.setAdapter(modelsAdapter);
@@ -115,6 +116,32 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                brandSpinner.setSelection(0);
+                modelSpinner.setSelection(0);
+                min_hp_filter.setText("");
+                max_hp_filter.setText("");
+                min_engine_filter.setText("");
+                max_engine_filter.setText("");
+                automated_filter.setChecked(false);
+                damaged_filter.setChecked(false);
+                fuel_filter.setChecked(false);
+                diesel_filter.setChecked(false);
+                gas_filter.setChecked(false);
+                year_filter.setSelection(0);
+                color_filter.setText("");
+                region_filter.setText("");
+                city_filter.setText("");
+                country_from_filter.setText("");
+                min_price_filter.setText("");
+                max_price_filter.setText("");
+                min_mileage_filter.setText("");
+                max_mileage_filter.setText("");
+            }
+        });
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,20 +149,42 @@ public class MainActivity extends AppCompatActivity {
                 toResultOfSearch.putExtra("brand", brandSpinner.getSelectedItem().toString());
                 if(modelSpinner.getSelectedItem().toString() != "Wszystkie modele"){
                     toResultOfSearch.putExtra("model", modelSpinner.getSelectedItem().toString());
+                }else{
+                    toResultOfSearch.putExtra("model","");
                 }
                 toResultOfSearch.putExtra("minHp", min_hp_filter.getText().toString());
                 toResultOfSearch.putExtra("maxHp", max_hp_filter.getText().toString());
                 toResultOfSearch.putExtra("minEngine", min_engine_filter.getText().toString());
                 toResultOfSearch.putExtra("maxEngine", max_engine_filter.getText().toString());
-                toResultOfSearch.putExtra("automated", automated_filter.getText().toString());
-                toResultOfSearch.putExtra("fuel", fuel_filter.getText().toString());
+                if(automated_filter.isChecked()){
+                    toResultOfSearch.putExtra("automated", "1");
+                }else{
+                    toResultOfSearch.putExtra("automated", "0");
+                }
+                if(damaged_filter.isChecked()){
+                    toResultOfSearch.putExtra("damaged", "1");
+                }else{
+                    toResultOfSearch.putExtra("damaged", "0");
+                }
+                if(fuel_filter.isChecked()){
+                    toResultOfSearch.putExtra("fuel", "0");
+                }else if(diesel_filter.isChecked()){
+                    toResultOfSearch.putExtra("fuel", "1");
+                }else if(gas_filter.isChecked()) {
+                    toResultOfSearch.putExtra("fuel", "2");
+                }else if(fuel_filter.isChecked() && diesel_filter.isChecked() && gas_filter.isChecked()){
+                    toResultOfSearch.putExtra("fuel", "");
+                }else{
+                    toResultOfSearch.putExtra("fuel", "");
+                }
+
                 if(year_filter.getSelectedItem().toString() != "Wszystkie roczniki"){
                     toResultOfSearch.putExtra("year", year_filter.getSelectedItem().toString());
                 }
                 toResultOfSearch.putExtra("country", color_filter.getText().toString());
                 toResultOfSearch.putExtra("minMileage", min_mileage_filter.getText().toString());
                 toResultOfSearch.putExtra("maxMileage", max_mileage_filter.getText().toString());
-                toResultOfSearch.putExtra("damaged", damaged_filter.getText().toString());
+
                 toResultOfSearch.putExtra("color", color_filter.getText().toString());
                 toResultOfSearch.putExtra("minPrice", min_price_filter.getText().toString());
                 toResultOfSearch.putExtra("maxPrice", max_price_filter.getText().toString());

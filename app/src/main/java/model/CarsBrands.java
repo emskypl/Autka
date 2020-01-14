@@ -16,10 +16,7 @@ public class CarsBrands {
     public void brandsToArray(ArrayAdapter<String> brandsList){
 
         this.brandsList = brandsList;
-        brandsList.add("Abarth");
-        brandsList.add("Acura");
-        brandsList.add("Aixam");
-        brandsList.add("Alfa-romeo");
+        brandsList.add("Alfa romeo");
         brandsList.add("Alpine");
         brandsList.add("Amarok");
         brandsList.add("Aro");
@@ -28,30 +25,15 @@ public class CarsBrands {
         brandsList.add("Aston-martin");
         brandsList.add("Audi");
         brandsList.add("Austin");
-        brandsList.add("Autobianchi");
         brandsList.add("Baic");
         brandsList.add("Beetle");
         brandsList.add("Bentley");
         brandsList.add("Bmw");
-        brandsList.add("Bora");
         brandsList.add("Brilliance");
         brandsList.add("Bugatti");
-        brandsList.add("Buggy");
-        brandsList.add("Buick");
-        brandsList.add("Caddy");
-        brandsList.add("Cadillac");
-        brandsList.add("California");
-        brandsList.add("Caravelle");
-        brandsList.add("Casalini");
-        brandsList.add("Caterham");
-        brandsList.add("Cc");
-        brandsList.add("Chatenet");
         brandsList.add("Chevrolet");
         brandsList.add("Chrysler");
         brandsList.add("Citroen");
-        brandsList.add("Corrado");
-        brandsList.add("Crafter");
-        brandsList.add("Cupra");
         brandsList.add("Dacia");
         brandsList.add("Daewoo");
         brandsList.add("Daihatsu");

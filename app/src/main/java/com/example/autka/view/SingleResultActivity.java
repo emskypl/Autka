@@ -1,5 +1,6 @@
 package com.example.autka.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -13,12 +14,16 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.autka.R;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
+
+import org.elasticsearch.common.recycler.Recycler;
 
 public class SingleResultActivity extends AppCompatActivity {
 
@@ -43,6 +48,7 @@ public class SingleResultActivity extends AppCompatActivity {
     private TextView city;
     private TextView description;
     private ImageView serwisLogo;
+    private Button backButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,6 +74,15 @@ public class SingleResultActivity extends AppCompatActivity {
         city = findViewById(R.id.city_single_result);
         description = findViewById(R.id.description_single_result);
         serwisLogo = findViewById(R.id.serwis_logo_single_result);
+        backButton = (Button) findViewById(R.id.buton_back);
+
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
         init();
     }
 

@@ -1,6 +1,7 @@
 package com.example.autka.view;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -48,8 +49,9 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     private ArrayList<Car> mCars = new ArrayList<Car>();
     private ImageButton nextPageButton;
     private ImageButton previousPageButton;
+    private ImageButton backToMainActivity;
     private ListView listCars;
-
+    private HitsList hitsList;
     private String brand;
     private String model;
     private String minHp;
@@ -68,7 +70,6 @@ public class ResultOfSearchActivity extends AppCompatActivity {
     private String maxPrice;
     private String region;
     private String city;
-
     int x = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,13 +79,22 @@ public class ResultOfSearchActivity extends AppCompatActivity {
 
         nextPageButton = (ImageButton) findViewById(R.id.nextPageButton);
         previousPageButton = (ImageButton) findViewById(R.id.previousPageButton);
+        backToMainActivity = (ImageButton) findViewById(R.id.backToMainActivity);
         listCars = (ListView) findViewById(R.id.list_view);
-
+        getCarsFromServer(x);
         nextPageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 x = x + 20;
                 getCarsFromServer(x);
+            }
+        });
+
+        backToMainActivity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+
             }
         });
 
@@ -96,13 +106,12 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             }
         });
 
-        getCarsFromServer(x);
+
     }
 
     private void getCarsFromServer(int x) {
         listCars.setAdapter(null);
         mCars.clear();
-
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
@@ -123,7 +132,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         call.enqueue(new Callback<HitsObject>() {
             @Override
             public void onResponse(Call<HitsObject> call, Response<HitsObject> response) {
-                HitsList hitsList = new HitsList();
+                 hitsList = new HitsList();
                 String jsonRespone = "";
                 try {
                     if (response.isSuccessful()) {
@@ -142,7 +151,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                             mCars.add(hitsList.getCarIndex().get(i).getCar());
                         }
                     }
-                    Log.d(TAG, "onResponse: size" + mCars.size());
+
                     //FancyToast.makeText(getApplicationContext(), "Znaleziono " + " ofert", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
 
                 } catch (NullPointerException e) {
@@ -156,21 +165,32 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<HitsObject> call, Throwable t) { }
         });
-        Log.d(TAG, "onResponse: size after response" + mCars.size());
+
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 addListElements();
 
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(mCars.size() == 0){
+                            FancyToast.makeText(getApplicationContext(), "Niestety brak rekordów.", FancyToast.LENGTH_LONG, FancyToast.SUCCESS, false).show();
+                        }
+                        if(mCars.size() >= 19){
+                            nextPageButton.setVisibility(View.VISIBLE);
+                        }else{
+                            nextPageButton.setVisibility(View.INVISIBLE);
+                        }
+                        if(x > 0){
+                            previousPageButton.setVisibility(View.VISIBLE);
+                        }else {
+                            previousPageButton.setVisibility(View.INVISIBLE);
+                        }
+                    }
+                }, 50);
             }
-        }, 800);
-        if(x > 0){
-            previousPageButton.setVisibility(View.VISIBLE);
-        }else{
-            previousPageButton.setVisibility(View.INVISIBLE);
-        }        if(mCars.size() > 0 && mCars.size() <= 20){
-            nextPageButton.setVisibility(View.INVISIBLE);
-        }
+        }, 1000);
 
     }
 
@@ -230,9 +250,25 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                     "\"bool\": {" +
                     "\"must\" : [" +
                     "{\"match\": {" + "\"brand\" : " + "\"" + brand + "\" }}";
-            if (model != null) {
+            if (!model.isEmpty()) {
                 json += ",{\"match\": {" + "\"model\" : " + "\"" + model + "\" }}";
             }
+            if (!country.isEmpty()) {
+                json += ",{\"match\": {" + "\"country\" : " + "\"" + country + "\" }}";
+            }
+            if (!region.isEmpty()) {
+                json += ",{\"match\": {" + "\"region\" : " + "\"" + region + "\" }}";
+            }
+            if (!fuel.isEmpty()) {
+                json += ",{\"match\": {" + "\"fuel\" : " + "\"" + fuel + "\" }}";
+            }
+            if (!automated.isEmpty()) {
+                json += ",{\"match\": {" + "\"automated\" : " + "\"" + automated + "\" }}";
+            }
+            if (!damaged.isEmpty()) {
+                json += ",{\"match\": {" + "\"damaged\" : " + "\"" + damaged + "\" }}";
+            }
+
             if (!minHp.isEmpty() || !maxHp.isEmpty()) {
                 json += ",{\"range\": {" +
                         "\"hp\": {";
@@ -245,8 +281,9 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 if (!maxHp.isEmpty()) {
                     json += "\"lte\":" + maxHp;
                 }
+                json += "}}}";
             }
-            json += "}}}";
+
             if (!minEngine.isEmpty() || !maxEngine.isEmpty()) {
                 json += ",{\"range\": {" +
                         "\"engine\": {";
@@ -259,25 +296,44 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 if (!maxEngine.isEmpty()) {
                     json += "\"lte\":" + maxEngine;
                 }
+                json += "}}}";
             }
-            json += "}}}";
 
+            if (!minPrice.isEmpty() || !maxPrice.isEmpty()) {
+                json += ",{\"range\": {" +
+                        "\"price\": {";
+                if (!minPrice.isEmpty()) {
+                    json += "\"gte\":" + minPrice;
+                }
+                if (!minPrice.isEmpty() && !maxPrice.isEmpty()) {
+                    json += ",";
+                }
+                if (!maxPrice.isEmpty()) {
+                    json += "\"lte\":" + maxPrice;
+                }
+                json += "}}}";
+            }
 
-//                                json += "{\"match\": {" + "\"automated\" : " + "\"" + automated + "\" }}" +
-//                                "{\"match\": {" + "\"fuel\" : " + "\"" + fuel + "\" }}," +
-//                                "{\"match\": {" + "\"country\" : " + "\"" + country + "\" }}," +
-//                                "{\"match\": {" + "\"damaged\" : " + "\"" + damaged + "\" }}," +
-//                                "{\"match\": {" + "\"color\" : " + "\"" + color + "\" }}," +
-//                                "{\"match\": {" + "\"region\" : " + "\"" + region + "\" }}," +
-//                                "{\"match\": {" + "\"city\" : " + "\"" + city + "\" }}" +
-                                json += "]" +
-                        "}" +
-                    "}" +
-                    "}";
+            if (!minMileage.isEmpty() || !maxMileage.isEmpty()) {
+                json += ",{\"range\": {" +
+                        "\"mileage\": {";
+                if (!minMileage.isEmpty()) {
+                    json += "\"gte\":" + minMileage;
+                }
+                if (!minMileage.isEmpty() && !maxMileage.isEmpty()) {
+                    json += ",";
+                }
+                if (!maxMileage.isEmpty()) {
+                    json += "\"lte\":" + maxMileage;
+                }
+                json += "}}}";
+            }
+
+            json += "]" +
+            "}" +
+            "}" +
+            "}";
         }
-
-
-
         return json;
     }
 
@@ -286,7 +342,6 @@ public class ResultOfSearchActivity extends AppCompatActivity {
         ListView androidListView = (ListView) findViewById(R.id.list_view);
         CustomAdapter customAdapter = new CustomAdapter();
         androidListView.setAdapter(customAdapter);
-
         androidListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -366,6 +421,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                     serwisLogo.setImageResource(R.drawable.olxlogo);
                 }
             } catch (Exception e) { }
+
             return view;
         }
     }
