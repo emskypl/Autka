@@ -6,14 +6,14 @@ public class Car {
     private String brand;
     private String model;
     private String engine;
-    private Integer year;
+    private String year;
     private Integer hp;
     private Integer mileage;
     private String color;
     private Boolean damaged;
     private Boolean automated;
     private Boolean fuel;
-    private String country_from;
+    private String countryFrom;
     private String price;
     private String url;
     private String images;
@@ -28,8 +28,8 @@ public class Car {
     public Car(String brand){
         this.brand = brand;
     }
-    public Car(String images,String brand, String model, String price, String engine, Integer year, Integer hp, Integer mileage, String color,
-               Boolean damaged, Boolean automated, Boolean fuel, String country_from, String url,
+    public Car(String images,String brand, String model, String price, String engine, String year, Integer hp, Integer mileage, String color,
+               Boolean damaged, Boolean automated, Boolean fuel, String countryFrom, String url,
                String region, String city, String description, String created_at) {
         this.images = images;
         this.brand = brand;
@@ -43,7 +43,7 @@ public class Car {
         this.damaged = damaged;
         this.automated = automated;
         this.fuel = fuel;
-        this.country_from = country_from;
+        this.countryFrom = countryFrom;
         this.url = url;
         this.region = region;
         this.city = city;
@@ -80,11 +80,11 @@ public class Car {
         this.engine = engine;
     }
 
-    public Integer getYear() {
+    public String getYear() {
         return year;
     }
 
-    public void setYear(Integer year) {
+    public void setYear(String year) {
         this.year = year;
     }
 
@@ -129,11 +129,11 @@ public class Car {
     }
 
     public String getCountry_from() {
-        return country_from;
+        return countryFrom;
     }
 
     public void setCountry_from(String country_from) {
-        this.country_from = country_from;
+        this.countryFrom = country_from;
     }
 
     public String getUrl() {
@@ -199,7 +199,7 @@ public class Car {
                 ", damaged=" + damaged +
                 ", automated=" + automated +
                 ", fuel=" + fuel +
-                ", country_from='" + country_from + '\'' +
+                ", country_from='" + countryFrom + '\'' +
                 ", url='" + url + '\'' +
                 ", region='" + region + '\'' +
                 ", city='" + city + '\'' +

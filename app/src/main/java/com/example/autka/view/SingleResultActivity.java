@@ -37,6 +37,7 @@ public class SingleResultActivity extends AppCompatActivity {
     private TextView brand;
     private TextView model;
     private TextView engine;
+    private TextView year;
     private TextView hp;
     private TextView mileage;
     private TextView color;
@@ -75,6 +76,7 @@ public class SingleResultActivity extends AppCompatActivity {
         description = findViewById(R.id.description_single_result);
         serwisLogo = findViewById(R.id.serwis_logo_single_result);
         backButton = (Button) findViewById(R.id.buton_back);
+        year = findViewById(R.id.year_single_result);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +99,7 @@ public class SingleResultActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(Exception e) {
-                    image.setImageResource(R.drawable.audi_gt);
+
                 }
             });
         } catch (Exception ex) {
@@ -113,15 +115,13 @@ public class SingleResultActivity extends AppCompatActivity {
 
                 @Override
                 public void onError(Exception e) {
-                    image_bg.setImageResource(R.drawable.audi_gt);
+
                 }
             });
         } catch (Exception ex) {
             Log.d(TAG, ex.getMessage());
         }
 
-
-        created_at.setText(extras.getString("created_at"));
         url.setText(extras.getString("url"));
         if (!url.getText().toString().startsWith("http://") && !url.getText().toString().startsWith("https://"))
             url.setText("http://" + url);
@@ -147,6 +147,7 @@ public class SingleResultActivity extends AppCompatActivity {
         hp.setText(String.valueOf(extras.getInt("hp")));
         mileage.setText(String.valueOf(extras.getInt("mileage")));
         color.setText(extras.getString("color"));
+        year.setText(extras.getString("year"));
         if (extras.getBoolean("damaged")) {
             damaged.setText("Tak");
         } else {
@@ -157,12 +158,14 @@ public class SingleResultActivity extends AppCompatActivity {
         } else {
             automated.setText("Nie");
         }
-        if (extras.getBoolean("fuel")) {
+        if (extras.getString("fuel") == "0") {
             fuel.setText("Benzyna");
-        } else {
-            fuel.setText("Gas");
+        } else if(extras.getString("fuel") == "1"){
+            fuel.setText("Diesel");
+        }else if(extras.getString("fuel") == "2"){
+            fuel.setText("LPG");
         }
-        countryFrom.setText(extras.getString("country_from"));
+        countryFrom.setText(extras.getString("countryFrom"));
         region.setText(extras.getString("region"));
         city.setText(extras.getString("city"));
         description.setText(extras.getString("description"));

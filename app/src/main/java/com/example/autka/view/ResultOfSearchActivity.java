@@ -268,6 +268,10 @@ public class ResultOfSearchActivity extends AppCompatActivity {
             if (!damaged.isEmpty()) {
                 json += ",{\"match\": {" + "\"damaged\" : " + "\"" + damaged + "\" }}";
             }
+            if (!color.isEmpty()) {
+                json += ",{\"match\": {" + "\"color\" : " + "\"" + damaged + "\" }}";
+            }
+
 
             if (!minHp.isEmpty() || !maxHp.isEmpty()) {
                 json += ",{\"range\": {" +
@@ -354,13 +358,14 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                 toSingleResult.putExtra("brand", mCars.get(position).getBrand());
                 toSingleResult.putExtra("model", mCars.get(position).getModel());
                 toSingleResult.putExtra("engine", mCars.get(position).getEngine());
+                toSingleResult.putExtra("year", mCars.get(position).getYear());
                 toSingleResult.putExtra("hp", mCars.get(position).getHp());
                 toSingleResult.putExtra("mileage", mCars.get(position).getMileage());
                 toSingleResult.putExtra("color", mCars.get(position).getColor());
                 toSingleResult.putExtra("damaged", mCars.get(position).getDamaged());
                 toSingleResult.putExtra("automated", mCars.get(position).getAutomated());
                 toSingleResult.putExtra("fuel", mCars.get(position).getFuel());
-                toSingleResult.putExtra("country_from", mCars.get(position).getCountry_from());
+                toSingleResult.putExtra("countryFrom", mCars.get(position).getCountry_from());
                 toSingleResult.putExtra("region", mCars.get(position).getRegion());
                 toSingleResult.putExtra("city", mCars.get(position).getCity());
                 toSingleResult.putExtra("description", mCars.get(position).getDescription());
@@ -403,7 +408,7 @@ public class ResultOfSearchActivity extends AppCompatActivity {
                     public void onSuccess() { }
 
                     @Override
-                    public void onError(Exception e) { imageView.setImageResource(R.drawable.audi_gt); }
+                    public void onError(Exception e) { imageView.setImageResource(R.drawable.samoh); }
                 });
                 boolean isAllegro = mCars.get(i).getUrl().contains("allegro");
                 boolean isOtomoto = mCars.get(i).getUrl().contains("otomoto");
